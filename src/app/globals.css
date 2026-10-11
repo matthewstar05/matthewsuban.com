@@ -1,26 +1,115 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   DESIGN TOKENS — the only place raw colors, radii, and type scale live.
+   Components reference these through Tailwind utilities (bg-background,
+   text-muted-foreground, rounded-card, text-display, py-section, …).
+   Rebrand the site by editing this block. See docs/DESIGN.md.
+   ========================================================================== */
+
+:root,
+.inverted {
+  /* light-dark(<light>, <dark>) resolves against the element's color-scheme,
+     so each token is defined once for both themes. Re-declared on .inverted so
+     it re-resolves against the flipped scheme there. */
+  --background: light-dark(#ffffff, #09090b);
+  --foreground: light-dark(#0a0a0a, #fafafa);
+  --surface: light-dark(#ffffff, #111113);
+  --muted: light-dark(#f4f4f5, #18181b);
+  --muted-foreground: light-dark(#52525b, #a1a1aa);
+  --border: light-dark(#e4e4e7, #27272a);
+  --accent: light-dark(#4f46e5, #818cf8);
+  --accent-foreground: light-dark(#ffffff, #0a0a0a);
+
+  --radius-control: 0.5rem;
+  --radius-card: 0.75rem;
+
+  --header-height: 4rem;
+}
+
+/* Theme selection: system by default, overridden by <html data-theme>. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* `.inverted` flips to the opposite scheme (used by the "inverted" section tone). */
+:root[data-theme="light"] .inverted {
+  color-scheme: dark;
+}
+:root[data-theme="dark"] .inverted {
+  color-scheme: light;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .inverted {
+    color-scheme: dark;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .inverted {
+    color-scheme: light;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-control: var(--radius-control);
+  --radius-card: var(--radius-card);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  /* Layout rhythm: px-gutter, py-section, py-section-lg */
+  --spacing-gutter: clamp(1rem, 4vw, 2rem);
+  --spacing-section: clamp(4rem, 8vw, 6rem);
+  --spacing-section-lg: clamp(5rem, 12vw, 9rem);
+
+  /* Type scale: text-display (H1), text-heading (H2) */
+  --text-display: clamp(2.5rem, 6vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.035em;
+  --text-display--font-weight: 650;
+  --text-heading: clamp(1.75rem, 3.5vw, 2.5rem);
+  --text-heading--line-height: 1.15;
+  --text-heading--letter-spacing: -0.025em;
+  --text-heading--font-weight: 600;
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-padding-top: calc(var(--header-height) + 1rem);
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+  ::selection {
+    @apply bg-accent text-accent-foreground;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
 }
