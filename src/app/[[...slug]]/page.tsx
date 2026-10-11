@@ -5,9 +5,9 @@ import { pages } from "@/content/pages";
 import { getPage } from "@/lib/pages";
 import { buildPageMetadata } from "@/lib/seo";
 
-// Known slugs are fully prerendered via generateStaticParams. Unknown slugs must
-// block (not stream) so notFound() can still send a real 404 status.
-export const instant = false;
+// Complete static output also blocks unknown slugs until notFound() can send
+// an actual 404. `instant` only controls validation, not response streaming.
+export const ensureStatic = "navigation";
 
 /**
  * Renders every page in the content registry (src/content/pages).

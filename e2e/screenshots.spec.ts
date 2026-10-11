@@ -20,6 +20,7 @@ for (const path of paths) {
         await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
         await page.goto(path);
         await page.waitForLoadState("networkidle");
+        await page.evaluate(() => document.fonts.ready);
         const name = path === "/" ? "home" : path.slice(1).replaceAll("/", "_");
         await page.screenshot({
           path: `.screenshots/${name}.${device}.${scheme}.png`,

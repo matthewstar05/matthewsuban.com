@@ -5,6 +5,11 @@ import type { SectionData, SectionType } from "@/components/sections/registry";
  * The Record type makes this fail to compile until every section has a sample.
  */
 export const sectionSamples: { [K in SectionType]: Extract<SectionData, { type: K }> } = {
+  woodland: {
+    type: "woodland",
+    title: "A little world,|just for a while.",
+    subtitle: "A quiet clearing for small creations and little discoveries.",
+  },
   hero: {
     type: "hero",
     eyebrow: "Eyebrow",

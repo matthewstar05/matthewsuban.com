@@ -36,8 +36,9 @@ docs/                        Brief, backlog, log, design, conventions, ADRs
 2. The page resolves its `Page` with `getPage(slug)` and renders `<Sections>`.
 3. `Section` looks up the component by `type`, wraps it in `<section>` (handling `id` and `tone`),
    and passes the remaining fields as props.
-4. Unknown slugs call `notFound()`. The route exports `instant = false` so that unknown slugs
-   block rather than stream, which keeps a real 404 status under Cache Components.
+4. Unknown slugs call `notFound()`. The route exports `ensureStatic = "navigation"` so that unknown slugs
+   wait for the complete static result and return a real 404 under Cache Components.
+   `instant = false` only disables navigation validation and does not prevent streaming.
 
 ## Type safety of content
 
@@ -61,3 +62,26 @@ exist.
   `"use cache"`. Read `node_modules/next/dist/docs/01-app/01-getting-started/08-caching.md` first.
 - **Client interactivity:** add a `"use client"` leaf component; keep sections themselves server
   components where possible.
+
+## Interactive forest
+
+The `woodland` section is a server wrapper around `WoodlandHome`. Its serializable
+page data supplies the title and introduction. The client scene owns transient
+collectibles, dialogue, native dialogs, breathing timer, and motion controls.
+`LivingLeaves` uses one requestAnimationFrame loop and refs for physics rather
+than rendering React on every frame. It cleans up listeners, observers and frames.
+
+`ForestBackdrop` selects the local 4K, landscape or portrait video. Its 16-second
+loop was rendered with the same shader and original painting as `LivingForest`.
+The live canvas reacts to pointer and branch gusts, matching video time and camera
+composition. `LivingLeaves` reads that shared wind clock. WebGL failure leaves
+the video visible; video failure leaves live shader animation. Reduced motion
+and manual pause retain the matching static texture. All media stays local.
+
+`MusicPlayer` lives in the root layout so navigation preserves playback and
+controls. The guestbook is explicitly private localStorage, not a public backend
+or a way to contact Matthew.
+
+About, Projects, Journal and Contact remain registered content pages. Unknown
+biography and project history are left unclaimed. `e2e/forest.spec.ts` verifies
+the actual scene interactions, media and responsive targets.

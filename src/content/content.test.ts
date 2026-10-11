@@ -48,8 +48,10 @@ describe("pages", () => {
     "%s has sections and exactly one h1 source",
     (_, page) => {
       expect(page.sections.length).toBeGreaterThan(0);
-      // Hero renders the page's <h1>. Exactly one per page keeps heading structure valid.
-      expect(page.sections.filter((s) => s.type === "hero")).toHaveLength(1);
+      // Conventional and scenic heroes each render an h1.
+      expect(page.sections.filter((s) => s.type === "hero" || s.type === "woodland")).toHaveLength(
+        1,
+      );
     },
   );
 

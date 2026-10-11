@@ -6,7 +6,7 @@ export function buildPageMetadata(page: Page): Metadata {
   const path = slugToPath(page.slug);
   return {
     // The home page uses the site's default title instead of "Home · Site".
-    title: page.slug === "" ? undefined : page.title,
+    ...(page.slug === "" ? {} : { title: page.title }),
     description: page.description,
     alternates: { canonical: path },
     openGraph: { url: path, description: page.description },

@@ -1,64 +1,45 @@
-# Project brief
+# Matthew's little corner
 
-> **Status: TEMPLATE — not filled in yet.** Agents: if this banner is still here, run `/kickoff`
-> (or ask the user these questions) before making product or copy decisions. Delete this banner
-> once the brief is filled in.
+## Purpose
 
-This document is the source of truth for what the site is, who it's for, and how it should feel.
-Every content, design, and scope decision should trace back to something here. Keep it short and
-update it when the direction changes — then note the change in `docs/LOG.md`.
+A personal website for Matthew Suban that feels like finding a quiet clearing.
+Visitors can wander through an introduction, projects, a journal, and a small
+guestbook. The front page is an artwork and a place to linger.
 
-## 1. One-liner
+## Direction
 
-<!-- What is this site, in one sentence? e.g. "Portfolio for a product designer who wants
-freelance clients in fintech." -->
+The user's reference is the pastoral warmth of Porter Robinson's _Nurture_:
+sunlit trees, lush greens, handwritten notes, and tiny human details. The
+subsequent direction is a painterly anime exploration game with scene objects
+that visitors can touch, move around, and use as destinations. Create an original composition rather than reproducing album artwork.
+Cream paper, moss ink, editorial serif type, an illustrated forest, leaves,
+ambient music, and gentle motion form the visual language.
 
-## 2. Audience
+## Experience
 
-<!-- Who visits? What do they already know? What are they trying to do? List 1–3 audiences,
-primary first. -->
+- A full-viewport forest on arrival, with the map below the fold.
+- A coherent looping 4K video whose foliage and meadow themselves move, with
+  live wind reactions over the matching painting.
+  Keep scene landmarks aligned with interactables and share their breeze.
+  Prioritize crisp detail rather than dimensions alone.
+- Original locally hosted anime artwork as the static/reduced-motion fallback.
+- Playful, animated navigation to About, Projects, Journal, and a local guestbook.
+- A real music player with an original default ambient track, playback, seeking,
+  volume, and browser-autoplay recovery. Never imply playback before it starts.
+- Pointer-driven leaves, branch gusts, collectible keepsakes, a friendly forest
+  spirit, a private mailbox guestbook, and a breathing pause by the pond.
+- Desktop, tablet, small phones, light/dark themes, and reduced motion all matter.
 
-## 3. Goals
+## Content and constraints
 
-<!-- What should a visitor do? Rank them. e.g. 1) Book a call 2) Read case studies 3) Subscribe. -->
+The name and personal-site purpose are known. No biography, professional claims,
+projects, contact address, or journal history may be invented. Initial pages use
+honest, welcoming copy and clearly unfinished collections. Guestbook entries
+stay on the visitor's device and must be labeled accordingly.
 
-| Rank | Goal | Success signal |
-| ---- | ---- | -------------- |
-| 1    |      |                |
-
-## 4. Pages
-
-<!-- The pages you expect at launch and the one job each page does. -->
-
-| Page | Job |
-| ---- | --- |
-| Home |     |
-
-## 5. Voice & tone
-
-<!-- 3–5 adjectives, plus "we are X, not Y" pairs. Words to use / avoid. -->
-
-- We are … not …
-
-## 6. Visual direction
-
-<!-- Mood words, references (links to sites you like and *what* you like about them), brand
-colors/fonts if they exist, things to avoid. -->
-
-- References:
-- Colors:
-- Type:
-- Avoid:
-
-## 7. Content inventory
-
-<!-- What real content exists (copy, images, logos, testimonials)? What's missing? -->
-
-## 8. Constraints
-
-<!-- Deadline, hosting, integrations (forms, analytics, CMS), legal, languages, accessibility
-level, performance budget. -->
-
-## 9. Out of scope
-
-<!-- What we're explicitly not doing (yet). -->
+Google Flow is the preferred video provider. Existing account access can be
+used as authorized; personal login confirmations cannot be invented. The background now loops a controlled animation of the matching original
+painting, enhanced locally to 4K, with live wind reactions. The user rejected the Flow video because its appearance and motion
+clashed with the scene objects. See `ASSETS.md` for provenance. No alternative paid provider, purchases,
+publication, deployment, or messages are authorized by this redesign. Launch
+the finished local site in a browser as requested.

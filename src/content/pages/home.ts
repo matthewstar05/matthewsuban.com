@@ -2,50 +2,16 @@ import type { Page } from "@/content/types";
 
 const home: Page = {
   slug: "",
-  title: "Home",
-  description: "A content-driven Next.js starter designed for fast, agent-assisted iteration.",
+  title: "A soft place to land",
+  description:
+    "Matthew's little corner of the internet. A sunlit garden of small creations, quiet thoughts, and a little room to breathe.",
   sections: [
     {
-      type: "hero",
-      eyebrow: "Template",
-      title: "A blank slate, built to iterate.",
+      type: "woodland",
+      title: "A little world,|just for a while.",
       subtitle:
-        "Pages are data. Sections are components. Design is tokens. Change any one without touching the others.",
-      actions: [
-        { label: "Read the brief", href: "/about" },
-        { label: "See every section", href: "/styleguide", variant: "secondary" },
-      ],
-    },
-    {
-      type: "features",
-      title: "What's in the box",
-      columns: 3,
-      items: [
-        {
-          icon: "layers",
-          title: "Section registry",
-          body: "Compose pages from typed sections. Add a new section type in two steps.",
-        },
-        {
-          icon: "palette",
-          title: "Design tokens",
-          body: "Every color, radius, and font flows from CSS variables. Rebrand in one file.",
-        },
-        {
-          icon: "bot",
-          title: "Agent-ready",
-          body: "AGENTS.md, skills, subagents, and a verify loop so agents can ship safely.",
-        },
-      ],
-    },
-    {
-      type: "cta",
-      tone: "muted",
-      title: "Start with the brief",
-      body: "Fill in docs/BRIEF.md, then ask your agent to run the kickoff skill.",
-      actions: [{ label: "Contact", href: "/contact" }],
+        "I’m Matthew. This is my little corner of the universe. Follow a path, stir the leaves, and stay a little while.",
     },
   ],
 };
-
 export default home;

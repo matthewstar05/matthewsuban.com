@@ -24,14 +24,15 @@ export interface SiteConfig {
 }
 
 export const site: SiteConfig = {
-  name: "Untitled Site",
-  tagline: "A blank slate, built to iterate.",
-  description: "A content-driven Next.js starter designed for fast, agent-assisted iteration.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  name: "Matthew Suban",
+  tagline: "A soft place to land",
+  description:
+    "A little garden on the internet, with quiet thoughts, small creations, and room to breathe.",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://matthewsuban.com",
   locale: "en",
-  headerCta: { label: "Get in touch", href: "/contact" },
+  headerCta: { label: "Say hello", href: "/contact" },
   footer: {
-    note: "Built with Next.js.",
+    note: "Made with care and a little daydreaming.",
     links: [
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },

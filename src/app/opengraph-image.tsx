@@ -7,10 +7,10 @@ export const contentType = "image/png";
 
 // OG images can't read CSS variables — keep these in sync with globals.css tokens.
 const colors = {
-  background: "#09090b",
-  foreground: "#fafafa",
-  muted: "#a1a1aa",
-  accent: "#818cf8",
+  background: "#f5f3e9",
+  foreground: "#344736",
+  muted: "#596a50",
+  accent: "#526a3e",
 };
 
 export default function OpengraphImage() {

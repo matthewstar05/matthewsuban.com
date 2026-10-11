@@ -75,3 +75,32 @@ reconstruct _why_ the site looks the way it does from this file alone.
   including `/styleguide`. Screenshots were not required because this iteration
   did not change the template's appearance.
 - **Follow-ups:** fill in the brief and replace placeholder content before launch.
+
+## 2026-10-11 - Matthew's living forest
+
+- **Goal:** turn the template into an immersive anime forest with usable scene
+  objects, moving foliage, crisp 4K artwork, music and small discoveries.
+- **Changed:** filled the brief; added a registered woodland section and original
+  illustrations, cream/moss tokens, serif and handwritten fonts, responsive
+  full-viewport composition, themed inner pages and route transitions. Added
+  pointer-driven collectible leaves, branch gusts, spirit reminders, pond
+  breathing and a clearly private local-storage mailbox. An original ambient
+  track and persistent player provide actual playback, seeking, volume and mute.
+- **Decisions:** see `decisions/0002-living-forest-and-local-notes.md`. Replaced the
+  rejected Flow video with a controlled 16-second 4K loop rendered from matching
+  original art, plus live WebGL wind reactions sharing the interactive leaves
+  and video clock. The 4K texture is AI-enhanced;
+  source and generation details are in `ASSETS.md`. No runtime dependencies were
+  added. Asset preparation tools were temporary, outside the application.
+- **Verified:** `npm run verify` passed, including 28 unit tests and the production
+  build. All 23 production Playwright tests and 24 screenshot captures passed.
+  Reviewed all six pages on mobile and desktop in light/dark themes, plus short
+  portrait and landscape windows. Chrome playback confirmed the real 3840 × 2160
+  loop, live branch reactions and working audio. Tests cover shared wind,
+  keyboard leaves, notes, breathing, playback persistence, pause, reduced motion
+  and media failure. Fixed mobile header clipping, crowded landscape controls
+  and an empty home-page title. Production tests also exposed a pre-existing
+  soft 404 under Cache Components; unknown slugs now return an actual 404.
+- **Follow-ups:** real biography, project history, journal entries and public
+  contact details need user-supplied facts. Public guestbook delivery and hosting
+  remain separate follow-ups.

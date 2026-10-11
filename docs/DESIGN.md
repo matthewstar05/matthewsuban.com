@@ -42,3 +42,23 @@ toggle and an inline pre-paint script).
 Geist Sans / Geist Mono via `next/font/google` in `layout.tsx`, exposed as `--font-geist-*` and
 mapped to `font-sans` / `font-mono`. To change fonts, swap the imports in `layout.tsx` and keep
 the variable names (or update the `@theme inline` mapping).
+
+## Matthew's daydream forest
+
+Cream paper and moss ink surround an original painterly anime forest. The scene
+uses six transparent illustrations as links and activities, with labels and a
+plain map as navigation alternatives. Hover and focus lift objects; leaves react
+to pointer wind and a branch gust. Dialogue and a keepsake pouch give feedback.
+
+Cormorant Garamond supplies the large italic title and editorial headings.
+Caveat supplies handwritten greetings and reminders. Geist remains the small UI
+face. All are self-hosted by Next's font loader.
+
+The world uses dedicated `--world-*` tokens for ink, paper labels, glow and night
+shade. Dark mode keeps the original artwork recognizable with a night overlay
+and visible stars. Mobile repositions the scene objects rather than shrinking
+the desktop layout. All essential object destinations also appear in the map.
+
+Animation pauses with reduced motion or the forest control. The music player
+stays mounted between routes and reflects actual audio playback. On small
+screens its default compact form leaves more room for the world.

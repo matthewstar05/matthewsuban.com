@@ -5,7 +5,7 @@ import { site } from "@/content/site";
 export function Footer() {
   const links = [...site.footer.links, ...site.socials];
   return (
-    <footer className="mt-auto border-t border-border">
+    <footer className="site-footer mt-auto border-t border-border">
       <Container className="flex flex-col gap-4 py-10 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
         <p>
           © {site.name}. {site.footer.note}

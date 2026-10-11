@@ -32,7 +32,7 @@
 
 - Content files are plain data: strings, numbers, arrays, objects. No JSX or functions.
 - Titles ≤ 60 chars, descriptions 50–160 chars (enforced by tests).
-- Exactly one `hero` per page — it renders the page's `<h1>` (enforced by tests).
+- Exactly one `hero` or `woodland` per page — it renders the page's `<h1>` (enforced by tests).
 - Internal links must point to existing pages (enforced by tests).
 
 ## Testing

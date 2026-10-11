@@ -12,14 +12,40 @@
   /* light-dark(<light>, <dark>) resolves against the element's color-scheme,
      so each token is defined once for both themes. Re-declared on .inverted so
      it re-resolves against the flipped scheme there. */
-  --background: light-dark(#ffffff, #09090b);
-  --foreground: light-dark(#0a0a0a, #fafafa);
-  --surface: light-dark(#ffffff, #111113);
-  --muted: light-dark(#f4f4f5, #18181b);
-  --muted-foreground: light-dark(#52525b, #a1a1aa);
-  --border: light-dark(#e4e4e7, #27272a);
-  --accent: light-dark(#4f46e5, #818cf8);
-  --accent-foreground: light-dark(#ffffff, #0a0a0a);
+  --background: light-dark(#f5f3e9, #171f19);
+  --foreground: light-dark(#344736, #ebeadd);
+  --surface: light-dark(#faf8ef, #202a22);
+  --muted: light-dark(#e9ecdd, #283327);
+  --muted-foreground: light-dark(#596a50, #b7c2ab);
+  --border: light-dark(#d6dac7, #3c4b39);
+  --accent: light-dark(#526a3e, #b3c98c);
+  --accent-foreground: light-dark(#faf8ef, #202a22);
+  --scene-ink: #fff9e9;
+  --scene-dim: #eeeacb;
+  --scene-shadow: #172719;
+  --scene-clear: #17271900;
+  --paper: #f6f2e3;
+  --paper-ink: #43513b;
+  --tape: #dcd9b4b3;
+  --note-paper: #e9e8c4;
+  --note-ink: #48543b;
+  --ochre: #bd954d;
+  --leaf-green: #abbc71;
+  --leaf-rust: #d6ad6a;
+  --path-green: light-dark(#edf0e2, #283327);
+  --path-peach: light-dark(#f1e9dc, #302e25);
+  --path-lilac: light-dark(#eeeaf0, #2b2a32);
+  --path-yellow: light-dark(#f2eddb, #303021);
+  --shadow-soft: #15291817;
+  --record: #35402e;
+  --record-groove: #576348;
+  --grain: #fffce0;
+  --world-ink: #304d43;
+  --world-label: #fcf8e8;
+  --world-ink-soft: #4f675b;
+  --world-glow: #fff0b9;
+  --night-tint: #11294b;
+  --night-glow: #e1ecbe;
 
   --radius-control: 0.5rem;
   --radius-card: 0.75rem;
@@ -111,5 +137,1987 @@
   }
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-accent;
+  }
+}
+
+/* The woodland: paper, moss, and room to breathe. */
+body {
+  position: relative;
+  padding-bottom: 140px;
+}
+body:has([data-woodland-home]) > .site-header,
+body:has([data-woodland-home]) > .site-footer {
+  display: none;
+}
+body:has([data-woodland-home]) {
+  padding-bottom: 0;
+}
+.handwritten {
+  font-family: var(--font-garden-hand), cursive;
+  font-weight: 400;
+}
+.tiny-label {
+  font-size: 9px;
+  letter-spacing: 0.17em;
+  font-weight: 500;
+}
+.woodland-home {
+  max-width: 1800px;
+  margin: auto;
+  padding: 0 28px 176px;
+}
+.garden-header {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 0 24px;
+}
+.garden-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 260px;
+  font-family: var(--font-garden-serif), serif;
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1;
+}
+.brand-sprout {
+  width: 45px;
+  height: 49px;
+  transform: rotate(-12deg);
+  color: var(--accent);
+}
+.brand-dot {
+  color: var(--ochre);
+}
+.garden-brand small {
+  display: block;
+  font:
+    9px var(--font-geist-sans),
+    sans-serif;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+  margin-top: 8px;
+}
+.garden-nav {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  font-size: 11px;
+}
+.garden-nav a,
+.garden-nav button {
+  padding: 12px 0;
+  min-height: 44px;
+  position: relative;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.garden-nav a::after,
+.garden-nav button::after {
+  content: "";
+  position: absolute;
+  bottom: 7px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 250ms;
+  transform-origin: left;
+}
+.garden-nav a:hover::after,
+.garden-nav button:hover::after,
+.garden-nav [aria-current]::after {
+  transform: scaleX(1);
+}
+.garden-nav button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.garden-header-end {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+.slow-label {
+  font-size: 9px;
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+.slow-label > span,
+.status-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.garden-footer {
+  max-width: 1180px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  padding: 22px 12px;
+  border-top: 1px solid var(--border);
+  font-size: 8px;
+  color: var(--muted-foreground);
+}
+.garden-footer > span,
+.garden-footer a {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+.garden-footer a {
+  min-height: 44px;
+}
+.footer-flower {
+  font-size: 15px;
+  margin: 0 9px;
+}
+/* A persistent soundtrack stays mounted during route changes. */
+.music-player {
+  position: fixed;
+  z-index: 35;
+  right: 24px;
+  bottom: 20px;
+  width: 343px;
+  padding: 15px 15px 9px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 95%, transparent);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 5px 32px var(--shadow-soft);
+  border-radius: 7px;
+  color: var(--foreground);
+}
+.music-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.record-art {
+  width: 47px;
+  height: 47px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle,
+    var(--record) 0 2px,
+    var(--record-groove) 3px,
+    var(--record) 4px 5px
+  );
+  display: grid;
+  place-items: center;
+}
+.record-art span {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--note-paper);
+  color: var(--note-ink);
+  display: grid;
+  place-items: center;
+  font:
+    italic 18px var(--font-garden-serif),
+    serif;
+}
+.record-art.is-spinning {
+  animation: record-spin 12s linear infinite;
+}
+.music-title {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.music-title .tiny-label {
+  font-size: 6px;
+  color: var(--muted-foreground);
+  letter-spacing: 0.1em;
+}
+.music-title strong {
+  font-family: var(--font-garden-serif), serif;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-top: 4px;
+}
+.music-title > span:last-child {
+  color: var(--muted-foreground);
+  font-size: 8px;
+  margin-top: 2px;
+}
+.play-button {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--muted);
+  color: var(--accent);
+  cursor: pointer;
+}
+.play-button:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 32px;
+  cursor: pointer;
+}
+.player-collapse {
+  margin: -8px -9px 0 -8px;
+}
+.music-seek {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 13px;
+  font:
+    7px var(--font-geist-mono),
+    monospace;
+  color: var(--muted-foreground);
+}
+.music-seek input {
+  flex: 1;
+  width: 0;
+}
+.music-player input[type="range"] {
+  accent-color: var(--accent);
+  height: 16px;
+  cursor: pointer;
+}
+.music-bottom {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.music-bottom p {
+  flex: 1;
+  font-size: 6px;
+  color: var(--muted-foreground);
+}
+.music-bottom input {
+  width: 38px;
+}
+.music-player.is-collapsed {
+  padding-bottom: 15px;
+}
+.garden-dialog {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin: auto;
+  padding: 0;
+  width: min(520px, calc(100% - 32px));
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  background: var(--surface);
+  color: var(--foreground);
+  box-shadow: 0 24px 90px color-mix(in srgb, var(--scene-shadow) 30%, transparent);
+}
+.garden-dialog::backdrop {
+  background: color-mix(in srgb, var(--scene-shadow) 48%, transparent);
+  backdrop-filter: blur(8px);
+}
+.garden-dialog[open] {
+  animation: paper-arrive 0.35s ease-out;
+}
+.dialog-paper {
+  position: relative;
+  padding: 40px;
+}
+.dialog-close {
+  position: absolute;
+  top: 11px;
+  right: 13px;
+  width: 44px;
+  height: 44px;
+}
+.dialog-doodle {
+  width: 64px;
+  height: 64px;
+  color: var(--accent);
+  margin-bottom: 15px;
+}
+.dialog-paper > .tiny-label {
+  display: block;
+  color: var(--muted-foreground);
+  margin: 12px 0;
+}
+.dialog-paper h2 {
+  font:
+    500 39px/1 var(--font-garden-serif),
+    serif;
+  letter-spacing: -0.025em;
+  margin-bottom: 16px;
+}
+.dialog-paper > p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted-foreground);
+}
+.dialog-paper form {
+  margin-top: 22px;
+}
+.dialog-paper label {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 17px;
+}
+.dialog-paper label > span {
+  color: var(--muted-foreground);
+}
+.dialog-paper input,
+.dialog-paper textarea {
+  display: block;
+  width: 100%;
+  padding: 11px 13px;
+  margin-top: 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--background);
+  font-size: 12px;
+}
+.dialog-paper textarea {
+  resize: vertical;
+}
+.garden-submit {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  border-radius: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 24px;
+  min-height: 44px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.garden-submit svg {
+  width: 24px;
+  height: 24px;
+}
+.dialog-paper .storage-note {
+  font-size: 10px;
+  margin-top: 17px;
+}
+.note-status {
+  margin-top: 12px;
+}
+.garden-notes {
+  margin-top: 20px;
+  display: grid;
+  gap: 12px;
+}
+.garden-notes article {
+  padding: 16px;
+  background: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 3px;
+  overflow-wrap: anywhere;
+}
+.garden-notes article p {
+  font:
+    23px/1.3 var(--font-garden-hand),
+    cursive;
+}
+.garden-notes article span {
+  font-size: 9px;
+  color: var(--muted-foreground);
+  display: block;
+  margin-top: 9px;
+}
+.clear-notes {
+  font-size: 10px;
+  text-decoration: underline;
+  cursor: pointer;
+  min-height: 44px;
+}
+.breathing-dialog {
+  text-align: center;
+}
+.breathing-dialog .dialog-paper > svg {
+  margin: auto;
+  color: var(--accent);
+}
+.breathing-orbit {
+  width: 120px;
+  height: 120px;
+  margin: 60px auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  box-shadow:
+    0 0 0 18px color-mix(in srgb, var(--muted) 50%, transparent),
+    0 0 0 36px color-mix(in srgb, var(--muted) 25%, transparent);
+}
+.breathing-orbit span {
+  font:
+    25px var(--font-garden-hand),
+    cursive;
+}
+.breathing-orbit.is-breathing {
+  animation: breathe 12s infinite;
+}
+
+/* An explorable, layered world. The props are actual navigation targets. */
+.forest-home {
+  padding: 0 20px 125px;
+}
+.forest-home .garden-header {
+  height: 88px;
+  padding: 0 20px;
+}
+.forest-home .garden-brand {
+  font-size: 31px;
+}
+.world-scene {
+  position: relative;
+  height: clamp(740px, calc(100svh - 105px), 1000px);
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--world-ink);
+}
+.world-art {
+  object-fit: cover;
+  object-position: center center;
+  z-index: -5;
+}
+.world-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--world-label) 12%, transparent),
+    transparent 55%,
+    color-mix(in srgb, var(--scene-shadow) 17%, transparent)
+  );
+}
+.world-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0.12;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.35' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+}
+.world-location {
+  position: absolute;
+  top: 27px;
+  left: 27px;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 1px solid color-mix(in srgb, var(--world-label) 45%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--world-label) 83%, transparent);
+  backdrop-filter: blur(12px);
+  font-size: 8px;
+  letter-spacing: 0.15em;
+}
+.world-location small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.01em;
+  margin-top: 5px;
+  color: var(--world-ink-soft);
+}
+.world-copy {
+  position: absolute;
+  z-index: 6;
+  top: 11%;
+  left: 21%;
+  width: 47%;
+  max-width: 610px;
+  text-align: center;
+  pointer-events: none;
+}
+.world-copy > .handwritten {
+  font-size: 26px;
+  margin-bottom: 13px;
+  transform: rotate(-4deg);
+}
+.world-copy h1 {
+  font:
+    500 italic clamp(66px, 6.6vw, 106px)/0.97 var(--font-garden-serif),
+    Georgia,
+    serif;
+  letter-spacing: -0.045em;
+  text-wrap: nowrap;
+  text-shadow: 0 1px 30px color-mix(in srgb, var(--world-label) 65%, transparent);
+}
+.world-intro {
+  max-width: 330px;
+  margin: 21px auto 0;
+  font-size: 11px;
+  line-height: 1.9;
+  text-wrap: pretty;
+}
+.world-copy-flower {
+  display: inline-block;
+  font-size: 28px;
+  margin-top: 17px;
+  color: var(--world-ink-soft);
+}
+.world-branch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 29%;
+  height: 21%;
+  max-width: 450px;
+  z-index: 7;
+  cursor: pointer;
+  transform-origin: 0 0;
+}
+.branch-glimmer {
+  position: absolute;
+  right: 15%;
+  bottom: 12%;
+  font-size: 28px;
+  color: var(--world-label);
+  text-shadow: 0 1px 5px var(--world-ink);
+}
+.world-branch > img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 7px 5px var(--shadow-soft));
+}
+.world-branch.is-shaking .branch-glimmer {
+  animation: branch-shake 1.3s ease-out;
+}
+.world-branch .object-tip {
+  top: 78%;
+  bottom: auto;
+  left: 53%;
+  font-size: 9px;
+}
+.world-object {
+  position: absolute;
+  z-index: 9;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 14px;
+  transition: filter 0.4s;
+}
+.world-object > img {
+  width: 100%;
+  height: auto;
+  transition:
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.4s;
+  filter: drop-shadow(0 7px 5px var(--shadow-soft));
+}
+.world-object:hover > img,
+.world-object:focus-visible > img {
+  transform: translateY(-5px);
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--world-glow) 65%, transparent));
+}
+.world-object:focus-visible {
+  outline: 2px dashed var(--world-ink);
+  outline-offset: 8px;
+}
+.object-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  white-space: nowrap;
+  width: max-content;
+  max-width: 240px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--world-label) 94%, transparent);
+  color: var(--world-ink);
+  border: 1px solid color-mix(in srgb, var(--world-ink) 18%, transparent);
+  box-shadow: 0 3px 12px var(--shadow-soft);
+  font-size: 10px;
+  font-weight: 500;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 40%);
+}
+.object-label > span {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 7px;
+  opacity: 0.65;
+}
+.object-tip {
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  width: max-content;
+  max-width: 220px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transform: translate(-50%, 5px);
+  background: var(--world-ink);
+  color: var(--world-label);
+  padding: 7px 11px;
+  border-radius: 4px;
+  font-size: 9px;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.25s,
+    transform 0.25s,
+    visibility 0.25s;
+  pointer-events: none;
+  z-index: 12;
+}
+.world-object:hover .object-tip,
+.world-object:focus-visible .object-tip,
+.world-branch:hover .object-tip,
+.world-branch:focus-visible .object-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+.world-treehouse {
+  right: 7%;
+  bottom: 29%;
+  width: 22%;
+  max-width: 325px;
+}
+.world-workbench {
+  left: 53%;
+  bottom: 13%;
+  width: 17%;
+  max-width: 240px;
+}
+.world-journal {
+  left: 37%;
+  bottom: 9%;
+  width: 11%;
+  max-width: 150px;
+}
+.world-mailbox {
+  left: 75%;
+  bottom: 16%;
+  width: 8%;
+  max-width: 135px;
+}
+.world-pond {
+  left: 6%;
+  bottom: 13%;
+  width: 30%;
+  max-width: 420px;
+}
+.world-pond > img {
+  opacity: 0.97;
+}
+.pond-ripple {
+  position: absolute;
+  left: 44%;
+  top: 42%;
+  width: 24%;
+  height: 15%;
+  border: 1px solid var(--world-label);
+  border-radius: 50%;
+  animation: pond-ripple 4s ease-out infinite;
+  opacity: 0.3;
+  pointer-events: none;
+}
+.world-spirit {
+  left: 46%;
+  bottom: 40%;
+  width: 7%;
+  max-width: 100px;
+}
+.world-spirit.is-awake > img {
+  animation: spirit-hop 1s ease-out;
+}
+.spirit-heart {
+  position: absolute;
+  top: -20px;
+  right: 14%;
+  font-family: var(--font-garden-hand), cursive;
+  font-size: 25px;
+  color: var(--world-label);
+  text-shadow: 0 1px 6px var(--world-ink);
+  pointer-events: none;
+}
+.world-hud {
+  position: absolute;
+  bottom: 17px;
+  left: 21px;
+  right: 21px;
+  z-index: 18;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.keepsake-pouch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  min-height: 50px;
+  border-radius: 6px;
+  color: var(--world-ink);
+  background: color-mix(in srgb, var(--world-label) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--world-ink) 20%, transparent);
+  cursor: pointer;
+  box-shadow: 0 2px 12px var(--shadow-soft);
+}
+.keepsake-pouch > span {
+  font:
+    17px/1 var(--font-garden-serif),
+    serif;
+  text-align: left;
+}
+.keepsake-pouch small {
+  display: block;
+  font:
+    8px var(--font-geist-mono),
+    monospace;
+  margin-top: 5px;
+  opacity: 0.75;
+}
+.world-help {
+  font-size: 9px;
+  color: var(--world-label);
+  text-shadow: 0 1px 5px var(--world-ink);
+}
+.world-hud-actions {
+  position: absolute;
+  right: 0;
+  bottom: 84px;
+  display: flex;
+  gap: 6px;
+}
+.world-hud-actions button {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--world-ink) 20%, transparent);
+  background: color-mix(in srgb, var(--world-label) 92%, transparent);
+  color: var(--world-ink);
+  cursor: pointer;
+}
+.world-hud-actions button[aria-pressed="true"] {
+  background: var(--world-ink);
+  color: var(--world-label);
+}
+.world-dialogue {
+  position: absolute;
+  z-index: 8;
+  left: 50%;
+  bottom: 31%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 18px;
+  width: max-content;
+  max-width: 300px;
+  border-radius: 30px;
+  background: color-mix(in srgb, var(--world-label) 94%, transparent);
+  color: var(--world-ink);
+  border: 1px solid color-mix(in srgb, var(--world-ink) 15%, transparent);
+  box-shadow: 0 3px 20px var(--shadow-soft);
+  pointer-events: none;
+}
+.world-dialogue p {
+  font-size: 19px;
+  line-height: 1.1;
+  text-align: center;
+}
+.dialogue-star {
+  font-size: 20px;
+}
+.living-leaves {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  overflow: hidden;
+}
+.living-leaf {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  pointer-events: auto;
+  cursor: pointer;
+  border-radius: 50%;
+  color: var(--leaf-green);
+  transform: rotate(var(--leaf-turn));
+  will-change: transform;
+}
+.living-leaf > svg {
+  display: block;
+  width: 25px;
+  height: 31px;
+  margin: auto;
+  fill: currentColor;
+  filter: drop-shadow(0 2px 2px var(--shadow-soft));
+  transition:
+    filter 0.2s,
+    scale 0.2s;
+}
+.living-leaf svg path + path {
+  stroke: var(--world-ink);
+  fill: none;
+  stroke-width: 1;
+  opacity: 0.4;
+}
+.living-leaf:hover > svg,
+.living-leaf:focus-visible > svg {
+  filter: drop-shadow(0 0 9px var(--world-glow));
+  scale: 1.2;
+}
+.living-leaf:focus-visible {
+  outline: 2px dashed var(--world-ink);
+  outline-offset: 0;
+}
+.leaf-color-1 {
+  color: var(--leaf-rust);
+}
+.leaf-color-2 {
+  color: var(--world-glow);
+}
+.leaf-spark {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  color: var(--world-label);
+  font-size: 14px;
+  text-shadow: 0 1px 3px var(--world-ink);
+}
+.world-stars {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: 0;
+  transition: opacity 1s;
+  pointer-events: none;
+  color: var(--night-glow);
+}
+.world-stars span {
+  position: absolute;
+  left: 35%;
+  top: 20%;
+}
+.world-stars span:nth-child(2) {
+  left: 50%;
+  top: 14%;
+  font-size: 30px;
+}
+.world-stars span:nth-child(3) {
+  left: 68%;
+  top: 27%;
+}
+.world-stars span:nth-child(4) {
+  left: 73%;
+  top: 9%;
+  font-size: 25px;
+}
+.world-stars span:nth-child(5) {
+  left: 44%;
+  top: 40%;
+  font-size: 10px;
+}
+:root[data-theme="dark"] .world-art,
+:root[data-theme="dark"] .world-scene .living-forest,
+:root[data-theme="dark"] .forest-loop {
+  filter: brightness(0.52) saturate(0.7) hue-rotate(12deg);
+}
+:root[data-theme="dark"] .world-atmosphere {
+  background: color-mix(in srgb, var(--night-tint) 28%, transparent);
+}
+:root[data-theme="dark"] .world-copy {
+  color: var(--scene-ink);
+}
+:root[data-theme="dark"] .world-copy h1 {
+  text-shadow: 0 2px 20px var(--night-tint);
+}
+:root[data-theme="dark"] .world-copy-flower {
+  color: var(--scene-dim);
+}
+:root[data-theme="dark"] .world-stars {
+  opacity: 0.8;
+}
+:root[data-theme="dark"] .world-object > img {
+  filter: brightness(0.8) saturate(0.75)
+    drop-shadow(0 0 12px color-mix(in srgb, var(--night-glow) 15%, transparent));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .world-art,
+  :root:not([data-theme]) .world-scene .living-forest,
+  :root:not([data-theme]) .forest-loop {
+    filter: brightness(0.52) saturate(0.7) hue-rotate(12deg);
+  }
+  :root:not([data-theme]) .world-copy {
+    color: var(--scene-ink);
+  }
+  :root:not([data-theme]) .world-copy h1 {
+    text-shadow: 0 2px 20px var(--night-tint);
+  }
+  :root:not([data-theme]) .world-copy-flower {
+    color: var(--scene-dim);
+  }
+  :root:not([data-theme]) .world-stars {
+    opacity: 0.8;
+  }
+}
+.forest-map {
+  padding: 44px 24px 35px;
+  max-width: 1200px;
+  margin: auto;
+  scroll-margin-top: 20px;
+}
+.forest-map-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 8px;
+}
+.forest-map-heading > .tiny-label {
+  flex-basis: 100%;
+  color: var(--muted-foreground);
+  font-size: 8px;
+}
+.forest-map h2 {
+  font:
+    500 32px/1.1 var(--font-garden-serif),
+    serif;
+}
+.forest-map-heading > p {
+  font-size: 22px;
+  color: var(--muted-foreground);
+  transform: rotate(-3deg);
+}
+.forest-map-paths {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  margin-top: 25px;
+}
+.forest-map-paths > a,
+.forest-map-paths > button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid var(--border);
+  padding: 15px 0;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.25s;
+}
+.forest-map-paths > a:hover,
+.forest-map-paths > button:hover {
+  transform: translateY(-3px);
+}
+.forest-map-paths > a > svg:first-child,
+.forest-map-paths > button > svg:first-child {
+  width: 35px;
+  height: 42px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.forest-map-paths strong {
+  font:
+    500 21px var(--font-garden-serif),
+    serif;
+}
+.forest-map-paths small {
+  display: block;
+  font-size: 8px;
+  color: var(--muted-foreground);
+  margin-top: 5px;
+}
+.forest-map-paths > a > svg:last-child,
+.forest-map-paths > button > svg:last-child {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.garden-footer {
+  max-width: 1152px;
+}
+body:has(.garden-dialog[open]) {
+  overflow: hidden;
+}
+@keyframes branch-shake {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20% {
+    transform: rotate(3deg);
+  }
+  45% {
+    transform: rotate(-2.5deg);
+  }
+  70% {
+    transform: rotate(1.5deg);
+  }
+}
+@keyframes pond-ripple {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+@keyframes spirit-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25%,
+  65% {
+    transform: translateY(-12px) rotate(-4deg);
+  }
+  45%,
+  85% {
+    transform: translateY(0) rotate(3deg);
+  }
+}
+@keyframes record-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.8);
+  }
+  33%,
+  50% {
+    transform: scale(1.25);
+  }
+}
+@keyframes paper-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(18px) rotate(-2deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.motion-paused .pond-ripple {
+  animation: none;
+}
+.motion-paused .is-shaking .branch-glimmer,
+.motion-paused .is-awake > img {
+  animation: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .page-arrival {
+    animation: garden-arrive 0.55s ease-out;
+  }
+}
+@keyframes garden-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+body:not(:has([data-woodland-home])) h1,
+body:not(:has([data-woodland-home])) h2 {
+  font-family: var(--font-garden-serif), Georgia, serif;
+  font-weight: 500;
+}
+body:not(:has([data-woodland-home])) h1 {
+  font-style: italic;
+}
+.site-header nav {
+  font-size: 12px;
+}
+@media (max-width: 1150px) {
+  .garden-brand {
+    min-width: 210px;
+  }
+  .garden-nav {
+    gap: 22px;
+  }
+  .slow-label {
+    display: none;
+  }
+  .world-copy {
+    left: 19%;
+    width: 52%;
+  }
+  .world-treehouse {
+    right: 4%;
+    width: 25%;
+  }
+  .world-object .object-label {
+    font-size: 9px;
+    padding: 7px 9px;
+  }
+  .world-spirit {
+    left: 45%;
+  }
+  .forest-map-paths {
+    gap: 16px;
+  }
+  .forest-map-paths strong {
+    font-size: 19px;
+  }
+}
+@media (max-width: 800px) {
+  .forest-home {
+    padding: 0 12px 140px;
+  }
+  .forest-home .garden-header {
+    height: 112px;
+    padding: 17px 5px 7px;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  .garden-brand {
+    flex: 1;
+    min-width: 0;
+  }
+  .garden-header-end {
+    order: 1;
+  }
+  .garden-nav {
+    order: 2;
+    flex-basis: 100%;
+    justify-content: flex-start;
+    gap: 28px;
+    margin-top: 5px;
+    font-size: 10px;
+  }
+  .world-scene {
+    height: 920px;
+  }
+  .world-art {
+    object-position: 49% center;
+  }
+  .world-copy {
+    top: 12%;
+    left: 7%;
+    width: 86%;
+    max-width: none;
+  }
+  .world-copy h1 {
+    font-size: clamp(63px, 10vw, 86px);
+  }
+  .world-intro {
+    max-width: 300px;
+  }
+  .world-location {
+    top: 18px;
+    left: 18px;
+    padding: 10px 13px;
+  }
+  .world-branch {
+    top: -1%;
+    left: -12%;
+    width: 44%;
+    z-index: 4;
+  }
+  .world-treehouse {
+    right: 7%;
+    bottom: 30%;
+    width: 40%;
+    max-width: 235px;
+  }
+  .world-workbench {
+    left: 9%;
+    bottom: 16%;
+    width: 33%;
+    max-width: 195px;
+  }
+  .world-journal {
+    left: 47%;
+    bottom: 13%;
+    width: 23%;
+    max-width: 135px;
+  }
+  .world-mailbox {
+    left: auto;
+    right: 3%;
+    bottom: 16%;
+    width: 15%;
+    max-width: 85px;
+  }
+  .world-pond {
+    left: 3%;
+    bottom: 35%;
+    width: 48%;
+    max-width: 310px;
+  }
+  .world-spirit {
+    left: 44%;
+    bottom: 29%;
+    width: 15%;
+    max-width: 85px;
+  }
+  .world-dialogue {
+    bottom: 25%;
+    left: 37%;
+    max-width: 210px;
+    padding: 8px 12px;
+  }
+  .world-dialogue p {
+    font-size: 17px;
+  }
+  .world-hud {
+    left: 13px;
+    right: 13px;
+    bottom: 17px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .world-help {
+    flex-basis: 100%;
+    order: 2;
+    text-align: center;
+    font-size: 8px;
+  }
+  .world-hud-actions button {
+    width: 36px;
+    height: 40px;
+  }
+  .keepsake-pouch {
+    padding: 9px 12px;
+  }
+  .world-object .object-label {
+    font-size: 8px;
+    padding: 7px 8px;
+    gap: 4px;
+  }
+  .world-object .object-label > span {
+    display: none;
+  }
+  .world-object .object-tip {
+    display: none;
+  }
+  .forest-map {
+    padding: 32px 7px;
+  }
+  .forest-map h2 {
+    font-size: 29px;
+    max-width: 300px;
+  }
+  .forest-map-heading > p {
+    font-size: 21px;
+    margin-top: 8px;
+  }
+  .forest-map-paths {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px 20px;
+  }
+  .forest-map-paths strong {
+    font-size: 21px;
+  }
+  .garden-footer {
+    padding: 20px 7px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  .music-player {
+    right: 14px;
+    bottom: 14px;
+    width: 330px;
+  }
+}
+@media (max-width: 450px) {
+  .forest-home {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .forest-home .garden-brand {
+    font-size: 29px;
+  }
+  .garden-brand small {
+    font-size: 8px;
+  }
+  .garden-nav {
+    gap: 28px;
+  }
+  .world-scene {
+    height: 880px;
+  }
+  .world-copy {
+    top: 12.5%;
+    left: 5%;
+    width: 90%;
+  }
+  .world-copy > .handwritten {
+    font-size: 23px;
+  }
+  .world-copy h1 {
+    font-size: clamp(56px, 16vw, 71px);
+  }
+  .world-intro {
+    max-width: 270px;
+    font-size: 10px;
+  }
+  .world-copy-flower {
+    margin-top: 12px;
+  }
+  .world-treehouse {
+    right: 1%;
+    width: 44%;
+    bottom: 32%;
+  }
+  .world-pond {
+    bottom: 36%;
+    width: 54%;
+    left: 0;
+  }
+  .world-workbench {
+    left: 3%;
+    bottom: 16%;
+    width: 37%;
+  }
+  .world-journal {
+    left: 44%;
+    bottom: 14%;
+    width: 25%;
+  }
+  .world-mailbox {
+    left: auto;
+    right: 3%;
+    bottom: 18%;
+    width: 17%;
+  }
+  .world-spirit {
+    left: 40%;
+    bottom: 31%;
+    width: 18%;
+  }
+  .world-dialogue {
+    bottom: 26%;
+    max-width: 240px;
+    left: 45%;
+  }
+  .world-dialogue p {
+    font-size: 16px;
+  }
+  .world-location {
+    top: 16px;
+    left: 14px;
+    font-size: 7px;
+  }
+  .world-location small {
+    font-size: 7px;
+  }
+  .music-player {
+    width: calc(100% - 28px);
+  }
+  .dialog-paper {
+    padding: 32px 25px;
+  }
+  .dialog-paper h2 {
+    font-size: 34px;
+  }
+  .forest-map-paths {
+    gap: 4px 15px;
+  }
+  .forest-map-paths strong {
+    font-size: 20px;
+  }
+  .forest-map-paths > a > svg:first-child,
+  .forest-map-paths > button > svg:first-child {
+    width: 28px;
+  }
+  .forest-map-paths small {
+    font-size: 7px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .world-object:hover > img {
+    transform: none;
+  }
+}
+
+/* Keep the illustrated controls comfortable on the smallest phones. */
+.world-hud-actions button,
+.play-button,
+.player-collapse {
+  min-width: 44px;
+  min-height: 44px;
+}
+.forest-map-paths {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.forest-map-paths > a,
+.forest-map-paths > button {
+  min-width: 0;
+}
+.forest-map-paths > a > span,
+.forest-map-paths > button > span {
+  min-width: 0;
+}
+@media (max-width: 800px) {
+  .forest-map-paths {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .world-branch {
+    left: 0;
+    width: 32%;
+    height: 12%;
+  }
+  .world-dialogue {
+    left: 50%;
+    bottom: 26%;
+    max-width: 78%;
+  }
+  .music-player.is-collapsed {
+    padding: 8px 10px;
+  }
+  .music-player.is-collapsed .record-art {
+    width: 35px;
+    height: 35px;
+  }
+  .music-player.is-collapsed .music-title > span:last-child {
+    display: none;
+  }
+  .music-player.is-collapsed .music-title strong {
+    font-size: 19px;
+  }
+  .music-main {
+    gap: 8px;
+  }
+  .player-collapse {
+    margin: 0 -5px 0 -5px;
+  }
+  .world-hud-actions {
+    position: static;
+    gap: 4px;
+  }
+  .keepsake-pouch {
+    padding: 8px;
+  }
+  .keepsake-pouch > span {
+    font-size: 16px;
+  }
+}
+@media (max-width: 360px) {
+  .forest-map-paths {
+    column-gap: 12px;
+  }
+  .forest-map-paths strong {
+    font-size: 18px;
+  }
+  .forest-map-paths small {
+    font-size: 7px;
+    overflow-wrap: anywhere;
+  }
+  .forest-map-paths > a,
+  .forest-map-paths > button {
+    gap: 5px;
+  }
+}
+
+/* The clearing fills the arrival viewport; the map waits below the fold. */
+.forest-home {
+  max-width: none;
+  position: relative;
+  padding: 0 0 125px;
+}
+.forest-home .garden-header {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 25;
+  height: 88px;
+  padding-inline: 38px;
+  background: linear-gradient(var(--background), transparent);
+}
+.world-scene {
+  height: 100svh;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+}
+.world-location {
+  top: 104px;
+}
+.world-copy {
+  top: 17%;
+  left: 58%;
+  transform: translateX(-50%);
+}
+.world-copy::before {
+  content: "";
+  position: absolute;
+  inset: -22% -15%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse,
+    color-mix(in srgb, var(--world-label) 72%, transparent),
+    transparent 70%
+  );
+}
+.world-spirit {
+  bottom: 36%;
+}
+.world-dialogue {
+  left: 44%;
+  bottom: 24%;
+  max-width: 260px;
+}
+.world-mailbox {
+  left: auto;
+  right: 1%;
+  width: 6%;
+  bottom: 25%;
+}
+.world-help {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.forest-map,
+.garden-footer {
+  padding-inline: 24px;
+}
+@media (max-width: 800px) {
+  .forest-home .garden-header {
+    height: 100px;
+    padding: 12px 18px 5px;
+    background: linear-gradient(
+      var(--background),
+      color-mix(in srgb, var(--background) 75%, transparent),
+      transparent
+    );
+  }
+  .world-scene {
+    height: 100svh;
+    min-height: 0;
+  }
+  .world-location {
+    display: none;
+  }
+  .world-copy {
+    top: 16%;
+    left: 7%;
+    transform: none;
+  }
+  .world-spirit {
+    bottom: 30%;
+  }
+  .world-dialogue {
+    left: 50%;
+    bottom: 24%;
+    max-width: 78%;
+  }
+  .world-mailbox {
+    left: auto;
+    right: 3%;
+    width: 17%;
+    bottom: 15%;
+  }
+  .world-treehouse {
+    bottom: 31%;
+  }
+  .world-pond {
+    bottom: 35%;
+  }
+  .world-workbench {
+    bottom: 13%;
+  }
+  .world-journal {
+    bottom: 11%;
+  }
+  .world-hud {
+    bottom: 12px;
+  }
+  .world-help {
+    position: static;
+    transform: none;
+  }
+  .music-player.is-collapsed {
+    width: 248px;
+  }
+  .music-player.is-collapsed .record-art {
+    display: none;
+  }
+}
+@media (max-height: 760px) and (min-width: 801px) {
+  .world-copy h1 {
+    font-size: clamp(58px, 6vw, 86px);
+  }
+  .world-copy {
+    top: 17%;
+  }
+  .world-intro {
+    margin-top: 12px;
+  }
+  .world-copy-flower {
+    display: none;
+  }
+  .world-treehouse {
+    width: 19%;
+  }
+  .world-pond {
+    width: 26%;
+  }
+  .world-spirit {
+    left: 43%;
+    bottom: 31%;
+  }
+  .world-dialogue {
+    left: 42%;
+    bottom: 20%;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 800px) {
+  .world-workbench {
+    bottom: 9.5%;
+  }
+  .world-journal {
+    bottom: 9%;
+  }
+  .world-mailbox {
+    bottom: 12%;
+  }
+  .world-dialogue {
+    bottom: 25.5%;
+  }
+}
+@media (max-height: 740px) and (max-width: 800px) {
+  .world-copy {
+    top: 16%;
+  }
+  .world-copy > .handwritten {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .world-copy h1 {
+    font-size: clamp(40px, 12.3vw, 54px);
+  }
+  .world-intro {
+    font-size: 9px;
+    line-height: 1.6;
+    margin-top: 12px;
+    max-width: 250px;
+  }
+  .world-copy-flower {
+    display: none;
+  }
+  .world-treehouse {
+    width: 38%;
+  }
+  .world-pond {
+    width: 49%;
+  }
+  .world-spirit {
+    width: 15%;
+  }
+  .world-workbench {
+    width: 30%;
+    bottom: 10%;
+  }
+  .world-journal {
+    width: 22%;
+    bottom: 10%;
+  }
+  .world-mailbox {
+    width: 14%;
+    bottom: 12%;
+  }
+  .world-dialogue {
+    bottom: 27%;
+    padding: 6px 10px;
+  }
+  .world-dialogue p {
+    font-size: 14px;
+  }
+  .world-hud {
+    bottom: 6px;
+  }
+  .world-help {
+    display: none;
+  }
+  .keepsake-pouch {
+    padding: 6px 8px;
+  }
+  .keepsake-pouch > span {
+    font-size: 14px;
+  }
+  .world-hud-actions button {
+    min-width: 40px;
+    width: 40px;
+    min-height: 40px;
+    height: 40px;
+  }
+}
+
+/* Animate the painting itself, keeping its landmarks in place. */
+.world-scene .living-forest {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -5;
+  opacity: 0;
+  transition: opacity 0.6s;
+  pointer-events: none;
+}
+.world-scene .living-forest.is-ready.is-interacting {
+  opacity: 1;
+}
+.world-object {
+  min-width: 44px;
+  min-height: 44px;
+}
+@media (max-width: 800px) {
+  .world-hud-actions {
+    position: fixed;
+    right: 14px;
+    bottom: 88px;
+    z-index: 26;
+  }
+  .world-hud-actions button {
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+  }
+  .world-mailbox {
+    bottom: 19%;
+  }
+}
+
+.world-hud-actions {
+  right: 21px;
+  bottom: 110px;
+  z-index: 20;
+}
+@media (max-width: 800px) {
+  .world-hud-actions {
+    position: absolute;
+    top: 104px;
+    right: 14px;
+    bottom: auto;
+  }
+  .world-copy {
+    top: 20%;
+  }
+}
+@media (max-height: 740px) and (max-width: 800px) {
+  .world-copy {
+    top: 27%;
+  }
+  .world-copy > .handwritten {
+    display: none;
+  }
+  .world-treehouse {
+    bottom: 27%;
+  }
+  .world-pond {
+    bottom: 32%;
+  }
+  .world-spirit {
+    bottom: 25%;
+  }
+  .world-dialogue {
+    bottom: 18%;
+  }
+  .world-workbench,
+  .world-journal {
+    bottom: 8%;
+  }
+}
+
+.forest-loop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: -5;
+  opacity: 0;
+  transition: opacity 0.35s;
+  pointer-events: none;
+}
+.forest-loop.is-ready {
+  opacity: 1;
+}
+.world-scene .living-forest {
+  z-index: -4;
+  transition: opacity 0.25s;
+}
+@media (max-width: 800px) {
+  .world-branch {
+    top: 100px;
+    width: 25%;
+    height: 9%;
+  }
+}
+
+@media (max-width: 450px) {
+  .keepsake-pouch {
+    padding: 8px;
+  }
+  .keepsake-pouch > svg {
+    display: none;
+  }
+  .keepsake-pouch > span {
+    font-size: 13px;
+  }
+}
+
+/* Leave room for the scene objects on short phones and landscape windows. */
+@media (max-height: 600px) {
+  .music-player.is-collapsed {
+    width: 116px;
+    padding: 8px 10px;
+  }
+  .music-player.is-collapsed .record-art,
+  .music-player.is-collapsed .music-title {
+    display: none;
+  }
+  .music-player.is-collapsed .music-main {
+    gap: 8px;
+  }
+}
+@media (max-height: 500px) and (min-width: 600px) {
+  .forest-home .garden-header {
+    height: 64px;
+    padding: 6px 24px;
+    flex-wrap: nowrap;
+  }
+  .garden-brand {
+    flex: none;
+    min-width: 180px;
+    font-size: 28px;
+  }
+  .garden-nav {
+    order: initial;
+    flex-basis: auto;
+    gap: 20px;
+    margin: 0;
+    font-size: 10px;
+  }
+  .garden-header-end {
+    order: initial;
+  }
+  .world-location,
+  .world-intro,
+  .world-copy-flower,
+  .world-help {
+    display: none;
+  }
+  .world-copy {
+    top: 19%;
+    left: 56%;
+    width: 46%;
+    transform: translateX(-50%);
+  }
+  .world-copy > .handwritten {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .world-copy h1 {
+    font-size: 42px;
+  }
+  .world-treehouse {
+    right: 4%;
+    width: 17%;
+    bottom: 28%;
+  }
+  .world-pond {
+    left: 3%;
+    width: 25%;
+    bottom: 27%;
+  }
+  .world-workbench {
+    left: 36%;
+    width: 16%;
+    bottom: 16%;
+  }
+  .world-journal {
+    left: 56%;
+    width: 11%;
+    bottom: 18%;
+  }
+  .world-mailbox {
+    right: 2%;
+    width: 7%;
+    bottom: 26%;
+  }
+  .world-spirit {
+    left: 52%;
+    width: 7%;
+    bottom: 38%;
+  }
+  .world-dialogue {
+    left: 49%;
+    bottom: 4%;
+    max-width: 260px;
+    padding: 6px 10px;
+  }
+  .world-dialogue p {
+    font-size: 14px;
+  }
+  .world-hud {
+    bottom: 14px;
+    left: 14px;
+  }
+  .world-hud-actions {
+    top: 66px;
+    right: 14px;
+    bottom: auto;
+  }
+  .world-branch {
+    top: 66px;
+    left: 0;
+    width: 23%;
+    height: 20%;
   }
 }

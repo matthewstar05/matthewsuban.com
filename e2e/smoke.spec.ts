@@ -12,6 +12,7 @@ for (const path of paths) {
 
     const response = await page.goto(path);
     expect(response?.status()).toBe(200);
+    await expect(page).toHaveTitle(/Matthew Suban/);
     // The styleguide renders a Hero sample, so only content pages must have exactly one h1.
     if (contentPaths.includes(path)) await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.locator("main")).toBeVisible();
@@ -26,7 +27,7 @@ test("unknown routes 404", async ({ page }) => {
 
 test("theme toggle cycles and persists", async ({ page }) => {
   await page.goto("/");
-  const toggle = page.locator("[data-theme-toggle]");
+  const toggle = page.locator("[data-theme-toggle]:visible");
   await expect(toggle).toHaveAttribute("data-theme-toggle", "system");
   await toggle.click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");

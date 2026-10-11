@@ -5,6 +5,7 @@ import { Faq } from "./Faq";
 import { FeatureGrid } from "./FeatureGrid";
 import { Hero } from "./Hero";
 import { Prose } from "./Prose";
+import { Woodland } from "./Woodland";
 
 /**
  * Section registry: maps a content `type` string to its component.
@@ -17,6 +18,7 @@ const sections = {
   prose: Prose,
   cta: CallToAction,
   faq: Faq,
+  woodland: Woodland,
 } satisfies Record<string, ComponentType<never>>;
 
 export type SectionType = keyof typeof sections;
