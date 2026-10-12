@@ -110,7 +110,8 @@ reconstruct _why_ the site looks the way it does from this file alone.
 - **Goal:** correct the soft and choppy wallpaper animation reported by the user.
 - **Changed:** replace the 24 fps idle video / 30 fps reaction overlay with one
   continuous GPU renderer of the full 4K painting. Remove the layer crossfade,
-  follow physical display density on Retina phones, and replace color-keyed
+  follow physical display density on Retina phones, align the still and animated
+  camera crops, and replace color-keyed
   displacement masks with smooth spatial masks. Retain video as a WebGL fallback
   and suspend rendering when hidden or offscreen. No dependencies or new remote
   asset generation were needed.

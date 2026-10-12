@@ -1326,7 +1326,7 @@ body:not(:has([data-woodland-home])) h1 {
     height: 920px;
   }
   .world-art {
-    object-position: 49% center;
+    object-position: center;
   }
   .world-copy {
     top: 12%;
