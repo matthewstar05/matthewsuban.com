@@ -5,6 +5,64 @@ async function stillForest(page: import("@playwright/test").Page) {
   await page.goto("/");
 }
 
+for (const theme of ["light", "dark", "system-dark"] as const) {
+  test(`object glow stays stable through crossing leaves in ${theme}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.emulateMedia({
+      colorScheme: theme === "light" ? "light" : "dark",
+      reducedMotion: "reduce",
+    });
+    if (theme !== "system-dark")
+      await page.addInitScript((theme) => localStorage.setItem("theme", theme), theme);
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    const object = page.locator(".world-treehouse");
+    const image = object.locator("img");
+    const resting = await image.evaluate((el) => getComputedStyle(el).filter);
+    await object.hover();
+    await expect.poll(() => image.evaluate((el) => getComputedStyle(el).filter)).not.toBe(resting);
+    const highlighted = await image.evaluate((el) => getComputedStyle(el).filter);
+    const point = await object.evaluate((el) => {
+      const rect = el.getBoundingClientRect();
+      return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
+    });
+    const leaf = page.getByRole("button", { name: "Keep leaf 1", exact: true });
+    // Reproduce a floating leaf crossing a stationary pointer. Freeze motion
+    // so the crossing and hit target are deterministic on every renderer.
+    await leaf.evaluate((el, point) => {
+      const layer = el.parentElement!.getBoundingClientRect();
+      el.style.left = `${point.x - layer.x - 22}px`;
+      el.style.top = `${point.y - layer.y - 22}px`;
+      el.style.transform = "none";
+    }, point);
+    await page.mouse.move(point.x + 1, point.y);
+    await page.mouse.move(point.x, point.y);
+    expect(
+      await object.evaluate(
+        (el, point) => el.contains(document.elementFromPoint(point.x, point.y)),
+        point,
+      ),
+    ).toBe(true);
+    await expect.poll(() => image.evaluate((el) => getComputedStyle(el).filter)).toBe(highlighted);
+    // A leaf behind a destination is still reachable and visible by keyboard.
+    await page.keyboard.press("Tab");
+    await leaf.focus();
+    await expect
+      .poll(() =>
+        leaf.evaluate(
+          (el, point) => el.contains(document.elementFromPoint(point.x, point.y)),
+          point,
+        ),
+      )
+      .toBe(true);
+    await page.keyboard.press("Enter");
+    await expect(leaf).toHaveCount(0);
+    await page.mouse.move(700, 350);
+    await object.focus();
+    await expect.poll(() => image.evaluate((el) => getComputedStyle(el).filter)).toBe(highlighted);
+  });
+}
+
 test("the living 4K painting responds to a gust and pauses cleanly", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "no-preference" });

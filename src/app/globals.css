@@ -718,12 +718,14 @@ body:has([data-woodland-home]) {
   font-size: 9px;
 }
 .world-object {
+  --object-brightness: 1;
+  --object-saturation: 1;
+  --object-glow: color-mix(in srgb, var(--world-glow) 0%, transparent);
   position: absolute;
   z-index: 9;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   border-radius: 14px;
-  transition: filter 0.4s;
 }
 .world-object > img {
   width: 100%;
@@ -731,12 +733,18 @@ body:has([data-woodland-home]) {
   transition:
     transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
     filter 0.4s;
-  filter: drop-shadow(0 7px 5px var(--shadow-soft));
+  /* Keep one filter list and one halo hue in every state. Only the halo's
+     opacity changes, so hover never blends a dark ground shadow into gold. */
+  filter: brightness(var(--object-brightness)) saturate(var(--object-saturation))
+    drop-shadow(0 7px 5px var(--shadow-soft)) drop-shadow(0 0 12px var(--object-glow));
+}
+.world-object:hover,
+.world-object:focus-visible {
+  --object-glow: color-mix(in srgb, var(--world-glow) 65%, transparent);
 }
 .world-object:hover > img,
 .world-object:focus-visible > img {
   transform: translateY(-5px);
-  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--world-glow) 65%, transparent));
 }
 .world-object:focus-visible {
   outline: 2px dashed var(--world-ink);
@@ -959,12 +967,16 @@ body:has([data-woodland-home]) {
 .living-leaves {
   position: absolute;
   inset: 0;
-  z-index: 12;
+  /* Let each leaf stack independently: passing leaves must not steal an
+     illustrated destination's hover, but a keyboard-focused leaf stays visible. */
+  z-index: auto;
   pointer-events: none;
   overflow: hidden;
 }
 .living-leaf {
+  --leaf-highlight: color-mix(in srgb, var(--world-glow) 0%, transparent);
   position: absolute;
+  z-index: 8;
   width: 44px;
   height: 44px;
   pointer-events: auto;
@@ -980,7 +992,7 @@ body:has([data-woodland-home]) {
   height: 31px;
   margin: auto;
   fill: currentColor;
-  filter: drop-shadow(0 2px 2px var(--shadow-soft));
+  filter: drop-shadow(0 2px 2px var(--shadow-soft)) drop-shadow(0 0 9px var(--leaf-highlight));
   transition:
     filter 0.2s,
     scale 0.2s;
@@ -991,12 +1003,16 @@ body:has([data-woodland-home]) {
   stroke-width: 1;
   opacity: 0.4;
 }
+.living-leaf:hover,
+.living-leaf:focus-visible {
+  --leaf-highlight: var(--world-glow);
+}
 .living-leaf:hover > svg,
 .living-leaf:focus-visible > svg {
-  filter: drop-shadow(0 0 9px var(--world-glow));
   scale: 1.2;
 }
 .living-leaf:focus-visible {
+  z-index: 12;
   outline: 2px dashed var(--world-ink);
   outline-offset: 0;
 }
@@ -1067,11 +1083,15 @@ body:has([data-woodland-home]) {
 :root[data-theme="dark"] .world-stars {
   opacity: 0.8;
 }
-:root[data-theme="dark"] .world-object > img {
-  filter: brightness(0.8) saturate(0.75)
-    drop-shadow(0 0 12px color-mix(in srgb, var(--night-glow) 15%, transparent));
+:root[data-theme="dark"] .world-object {
+  --object-brightness: 0.8;
+  --object-saturation: 0.75;
 }
 @media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .world-object {
+    --object-brightness: 0.8;
+    --object-saturation: 0.75;
+  }
   :root:not([data-theme]) .world-art,
   :root:not([data-theme]) .world-scene .living-forest,
   :root:not([data-theme]) .forest-loop {

@@ -150,3 +150,23 @@ reconstruct _why_ the site looks the way it does from this file alone.
 - **CI follow-up:** the slower remote renderer exposed a test comparison spanning
   the entire click delay. Compare consecutive actual draws when checking repeat
   gust continuity, so legitimate motion during the click cannot look like a snap.
+
+## 2026-10-12 - Stable hover highlights
+
+- **Goal:** stop highlighted scene objects snapping to another glow color.
+- **Found:** a leaf crossing the pointer stole the object's hover, reverting its
+  gold halo to the dark ground shadow. Explicit dark mode also replaced the
+  whole image filter, overriding hover, while system dark used different rules.
+- **Changed:** keep ground shadows and gold halos separate in a consistent
+  filter list; fade halo opacity rather than mixing shadow hues. Apply night
+  brightness and saturation independently in explicit and system dark themes.
+  Passing leaves stack behind scene destinations, with keyboard-focused leaves
+  lifted above them. Apply the same fixed-hue treatment to leaf highlights.
+  No dependencies or assets changed.
+- **Verified:** `npm run verify` passed with 31 unit tests and the production
+  build; all 29 production browser tests and four home screenshot captures
+  passed, including `/styleguide`. New tests reproduce a leaf crossing the
+  pointer in light, explicit dark and system dark, check stable highlighting,
+  and confirm an overlapping leaf can still be focused and collected by keyboard.
+  Reviewed hovered desktop/mobile scenes in both themes; the held highlight's
+  computed filter stayed unchanged while the forest continued animating.

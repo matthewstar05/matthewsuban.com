@@ -17,6 +17,7 @@ No implementation tasks remain for this iteration.
 
 ## Done
 
+- [x] 2026-10-12 - Keep hover glows a consistent gold, preserve night shading, and prevent floating leaves from interrupting object highlights while retaining keyboard leaf access.
 - [x] 2026-10-11 - Give canopy gusts gradual spring bends, traveling ripples and a long, gentle rebound; soften pointer wind and slow fine foliage motion.
 - [x] 2026-10-11 - Replace soft 24 fps video playback and 30 fps reaction handoffs with a continuous full-density GPU painting; verify 4K frame pacing and refresh the local launch.
 - [x] 2026-10-11 - Verify the production forest, interactions, responsive layouts, light/dark themes and all section samples; review screenshots.

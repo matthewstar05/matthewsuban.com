@@ -49,6 +49,10 @@ Cream paper and moss ink surround an original painterly anime forest. The scene
 uses six transparent illustrations as links and activities, with labels and a
 plain map as navigation alternatives. Hover and focus lift objects; leaves react
 to pointer wind and a branch gust. Dialogue and a keepsake pouch give feedback.
+Object and leaf highlights use a fixed warm gold halo whose opacity fades over
+a separate ground shadow. Night shading stays independent of hover. Floating
+leaves pass behind illustrated destinations so they cannot steal a stationary
+pointer's highlight; keyboard focus lifts the selected leaf into view.
 
 Cormorant Garamond supplies the large italic title and editorial headings.
 Caveat supplies handwritten greetings and reminders. Geist remains the small UI
