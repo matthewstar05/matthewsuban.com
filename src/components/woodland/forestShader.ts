@@ -16,7 +16,7 @@ uniform vec2 u_pointer;
 uniform float u_pointerWind;
 uniform float u_time;
 uniform float u_breeze;
-uniform float u_gust;
+uniform vec4 u_gust;
 varying vec2 v_uv;
 void main() {
   vec2 screen = vec2(v_uv.x, 1. - v_uv.y);
@@ -33,12 +33,18 @@ void main() {
   float path = 1. - smoothstep(.045, .15, abs(p.x - pathCenter));
   float grass = meadow * anchored * (1. - path);
   float nearPointer = exp(-dot(screen - u_pointer, screen - u_pointer) * 28.);
-  float wind = u_breeze + u_gust * 2.4 + nearPointer * u_pointerWind;
-  float branchWave = sin(u_time + p.x * 9. + p.y * 4.);
-  float leafFlutter = sin(u_time * 3. + p.x * 42. + p.y * 27.);
+  // Delayed spring fronts carry the same gust across the crown. Interpolate
+  // smoothly so there are no seams between the four bend samples.
+  float front = clamp(p.x * .85 + (1. - p.y) * .15, 0., 1.) * 3.;
+  float gust = mix(u_gust.x, u_gust.y, smoothstep(0., 1., front));
+  gust = mix(gust, u_gust.z, smoothstep(1., 2., front));
+  gust = mix(gust, u_gust.w, smoothstep(2., 3., front));
+  float wind = u_breeze + gust * 2.4 + nearPointer * u_pointerWind;
+  float branchWave = sin(u_time - p.x * 7. + p.y * 3.);
+  float leafFlutter = sin(u_time * 2. + p.x * 24. + p.y * 18.);
   vec2 shift = vec2(
-    foliage * (.0025 * branchWave + .0018 * wind + .0004 * leafFlutter),
-    foliage * (.0011 * sin(u_time * 2. + p.x * 10.) + .0003 * wind)
+    foliage * (.0032 * branchWave + .0023 * wind + .0003 * leafFlutter),
+    foliage * (.0012 * sin(u_time + p.x * 8.) + .0004 * wind)
   );
   shift.x += grass * (.0011 * sin(u_time * 2. + p.y * 30. + p.x * 16.) + .001 * wind);
   shift.y += grass * .00035 * sin(u_time * 3. + p.x * 24.);

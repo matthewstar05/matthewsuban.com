@@ -63,7 +63,7 @@ try {
       gl.uniform2f(gl.getUniformLocation(program, "u_cover"), 1, 1);
       gl.uniform2f(gl.getUniformLocation(program, "u_pointer"), -2, -2);
       gl.uniform1f(gl.getUniformLocation(program, "u_pointerWind"), 0);
-      gl.uniform1f(gl.getUniformLocation(program, "u_gust"), 0);
+      gl.uniform4f(gl.getUniformLocation(program, "u_gust"), 0, 0, 0, 0);
       window.renderFrame = (phase, breeze) => {
         gl.uniform1f(gl.getUniformLocation(program, "u_time"), phase);
         gl.uniform1f(gl.getUniformLocation(program, "u_breeze"), breeze);

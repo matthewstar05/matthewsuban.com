@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type RefObject } from "react";
-import { forestBreeze, FOREST_LOOP_SECONDS } from "./forestWind";
+import { advanceForestSpring, forestBreeze, FOREST_LOOP_SECONDS } from "./forestWind";
 
 import { vertexSource, fragmentSource } from "./forestShader";
 
@@ -92,9 +92,12 @@ export function LivingForest({
     let lastReport = 0;
     let presented = false;
     let previousGust = latestGust.current;
-    let burst = 0;
+    const bends = Array.from({ length: 4 }, () => ({ position: 0, velocity: 0 }));
+    const pendingGusts: { at: number; front: number }[] = [];
+    const pointerBend = { position: 0, velocity: 0 };
     let pointerWind = 0;
     let pointer = { x: -2, y: -2, time: 0 };
+    const easedPointer = { x: -2, y: -2 };
     function resize() {
       bounds = scene!.getBoundingClientRect();
       const ratio = Math.min(
@@ -120,6 +123,8 @@ export function LivingForest({
       const dt = event.timeStamp - pointer.time;
       if (dt > 0 && dt < 180)
         pointerWind = Math.max(-2, Math.min(2, ((x - pointer.x) * 1600) / dt));
+      // Start at the first real position rather than sweeping in from offscreen.
+      if (pointer.time === 0) Object.assign(easedPointer, { x, y });
       pointer = { x, y, time: event.timeStamp };
     }
     function tick(now: number) {
@@ -129,24 +134,42 @@ export function LivingForest({
       last = now;
       seconds += dt;
       if (previousGust !== latestGust.current) {
-        burst = 1;
+        for (let front = 0; front < bends.length; front++)
+          pendingGusts.push({ at: seconds + front * 0.32, front });
         previousGust = latestGust.current;
       }
-      burst *= Math.exp(-dt * 1.2);
-      pointerWind *= Math.exp(-dt * 2);
+      for (const bend of bends) advanceForestSpring(bend, dt);
+      for (let i = pendingGusts.length - 1; i >= 0; i--) {
+        const impulse = pendingGusts[i];
+        if (impulse.at > seconds) continue;
+        const bend = bends[impulse.front];
+        bend.velocity = Math.min(2.4, bend.velocity + 1.4);
+        pendingGusts.splice(i, 1);
+      }
+      pointerWind *= Math.exp(-dt * 1.2);
+      advanceForestSpring(pointerBend, dt, pointerWind);
+      const pointerEase = 1 - Math.exp(-dt * 4);
+      easedPointer.x += (pointer.x - easedPointer.x) * pointerEase;
+      easedPointer.y += (pointer.y - easedPointer.y) * pointerEase;
       windClockRef.current = seconds;
       gl!.uniform1f(uniforms.u_time, (seconds / FOREST_LOOP_SECONDS) * Math.PI * 2);
       gl!.uniform1f(uniforms.u_breeze, forestBreeze(seconds));
-      gl!.uniform1f(uniforms.u_gust, burst);
-      gl!.uniform2f(uniforms.u_pointer, pointer.x, pointer.y);
-      gl!.uniform1f(uniforms.u_pointerWind, pointerWind);
+      gl!.uniform4f(
+        uniforms.u_gust,
+        bends[0].position,
+        bends[1].position,
+        bends[2].position,
+        bends[3].position,
+      );
+      gl!.uniform2f(uniforms.u_pointer, easedPointer.x, easedPointer.y);
+      gl!.uniform1f(uniforms.u_pointerWind, pointerBend.position);
       gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
       if (!presented) {
         surface!.classList.add("is-ready");
         presented = true;
       }
       if (now - lastReport > 100) {
-        surface!.dataset.gust = burst.toFixed(3);
+        surface!.dataset.gust = Math.max(...bends.map((bend) => bend.position)).toFixed(3);
         lastReport = now;
       }
       frame = requestAnimationFrame(tick);

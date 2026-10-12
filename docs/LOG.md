@@ -126,3 +126,24 @@ reconstruct _why_ the site looks the way it does from this file alone.
   not a guarantee for every device. Tests verify continuous frame drawing,
   full-density phone resizing, no primary-path video downloads, and capability
   failure fallbacks.
+
+## 2026-10-11 - Slower, rippling tree motion
+
+- **Goal:** make the trees ripple smoothly and stop gusts snapping back quickly.
+- **Changed:** replace instantaneous gust displacement and fast exponential
+  recovery with damped spring momentum. Four delayed bend samples ripple across
+  the canopy, peak gradually, and rebound with a roughly 14-second settling
+  tail. Repeated gusts add momentum without resetting the painting. Ease pointer
+  position and wind through the same spring model, slow fine foliage flutter,
+  and slightly deepen the broad canopy sway. Preserve the full-resolution,
+  display-cadence renderer and anchored landmarks. Update the offline loop
+  exporter for the new gust uniform. No dependencies or remote assets added.
+- **Verified:** `npm run verify` passed with 31 unit tests and the production
+  build. All 26 production browser tests and four home screenshot captures
+  passed. Reviewed animated mobile/desktop scenes in both themes and a canopy
+  sequence through the bend, traveling ripple, rebound and settling phases.
+  A browser regression test checks delayed bend peaks, continuous displacement
+  and retriggering; unit tests cover slow recovery and refresh-rate independence.
+  A local Metal-backed Chromium check, forcing GPU completion during the gust,
+  drew 240 frames in four seconds at 3840 × 2160: median 16.7 ms, 95th percentile
+  16.8 ms, no intervals over 33.4 ms. The updated scene is running in Chrome.

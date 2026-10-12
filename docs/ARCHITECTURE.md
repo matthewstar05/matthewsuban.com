@@ -77,6 +77,10 @@ shares its continuous clock with `LivingLeaves`. There is no idle-video/live-can
 handoff or crossfade. Smooth spatial wind masks keep adjacent painted pixels
 together. The render buffer follows display density, including 3× phones,
 within an 8.3-megapixel budget. Hidden or offscreen scenes suspend rendering.
+Gusts add spring momentum rather than resetting displacement. Four delayed
+bend samples carry the ripple across the canopy, with a soft rebound and a
+roughly 14-second settling tail. Pointer wind also uses spring inertia and an
+eased position, avoiding sudden local deformation as the cursor moves.
 WebGL failure selects a local video fallback; Retina screens use its 4K encode.
 Reduced motion, manual pause or failure of both paths retains the static texture.
 All media stays local.

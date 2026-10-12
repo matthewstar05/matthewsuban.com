@@ -60,6 +60,77 @@ test("Retina phones keep full display resolution when animated or resized", asyn
   await context.close();
 });
 
+test("a gust bends gradually, ripples across trees and rebounds without resetting", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.addInitScript(() => {
+    const wind = window as typeof window & {
+      forestBends: { time: number; fronts: number[] }[];
+    };
+    wind.forestBends = [];
+    const uniform = WebGLRenderingContext.prototype.uniform4f;
+    WebGLRenderingContext.prototype.uniform4f = function (location, ...fronts) {
+      wind.forestBends.push({ time: performance.now(), fronts });
+      return uniform.call(this, location, ...fronts);
+    };
+  });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await expect(page.locator(".living-forest")).toHaveClass(/is-ready/);
+  const branch = page.getByRole("button", { name: "Gently shake the leafy branch" });
+  await branch.click();
+  // Wait for the actual spring rebound rather than imposing wall-clock timing
+  // on slower CI graphics devices.
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        Number(document.querySelector(".living-forest")?.getAttribute("data-gust")),
+      ),
+    )
+    .toBeGreaterThan(0.9);
+  await expect
+    .poll(
+      () =>
+        page.evaluate(() => {
+          const wind = window as typeof window & {
+            forestBends: { time: number; fronts: number[] }[];
+          };
+          return wind.forestBends.at(-1)!.fronts[0];
+        }),
+      { timeout: 12_000 },
+    )
+    .toBeLessThan(-0.2);
+  const trace = await page.evaluate(() => {
+    const wind = window as typeof window & {
+      forestBends: { time: number; fronts: number[] }[];
+    };
+    return wind.forestBends;
+  });
+  const peaks = [0, 3].map((front) =>
+    trace.reduce((best, sample) => (sample.fronts[front] > best.fronts[front] ? sample : best)),
+  );
+  expect(peaks[1].time - peaks[0].time).toBeGreaterThan(500);
+  const jumps = trace.slice(1).map((sample, i) => Math.abs(sample.fronts[0] - trace[i].fronts[0]));
+  expect(Math.max(...jumps)).toBeLessThan(0.15);
+  const beforeRepeat = trace.at(-1)!.fronts[0];
+  await branch.click();
+  const afterRepeat = await page.evaluate(
+    () =>
+      new Promise<number>((resolve) => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const wind = window as typeof window & {
+              forestBends: { time: number; fronts: number[] }[];
+            };
+            resolve(wind.forestBends.at(-1)!.fronts[0]);
+          });
+        });
+      }),
+  );
+  expect(Math.abs(afterRepeat - beforeRepeat)).toBeLessThan(0.15);
+});
+
 async function withoutWebGL(page: import("@playwright/test").Page) {
   await page.addInitScript(() => {
     HTMLCanvasElement.prototype.getContext = new Proxy(HTMLCanvasElement.prototype.getContext, {
