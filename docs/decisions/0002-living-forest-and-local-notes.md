@@ -12,8 +12,13 @@ foreground objects. The user rejected that mismatch.
 
 ## Decision
 
-Render a controlled 16-second 4K loop from the matching original painting. Add
-live WebGL reactions with the same shader and a shared video/breeze clock. Keep landmarks anchored and use the same image for static fallback.
+Render the matching 4K painting continuously on the GPU, with a 16-second breeze
+cycle and a shared clock for live reactions and collectible leaves. Draw at
+display cadence and size the buffer for physical display pixels, within a 4K
+pixel budget. Keep landmarks anchored and use the same image for static fallback.
+The previously exported local video remains a fallback for unavailable WebGL.
+The user reported the 24 fps video and 30 fps reaction overlay as soft and choppy;
+the primary experience now has one renderer, with no compressed-video handoff.
 Host all original art and audio locally. Retain the content-page registry and
 server section wrapper, with browser interactivity isolated in woodland components.
 
@@ -25,6 +30,6 @@ are not sent to Matthew. Unknown biography and contact details remain unclaimed.
 
 The forest keeps its composition and visual style, and responds immediately to
 wind without generative scene changes. Reduced motion shows the matching still;
-unavailable WebGL leaves the ambient video playing, and unavailable video
-leaves live shader animation. Public messages and actual contact delivery require a
+unavailable WebGL uses the ambient video, and failure of both animation paths
+leaves the matching still. Public messages and actual contact delivery require a
 separate backend decision. The enhanced 4K art is documented as upscaled.

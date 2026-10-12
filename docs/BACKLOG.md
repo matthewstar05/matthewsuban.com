@@ -17,6 +17,7 @@ No implementation tasks remain for this iteration.
 
 ## Done
 
+- [x] 2026-10-11 - Replace soft 24 fps video playback and 30 fps reaction handoffs with a continuous full-density GPU painting; verify 4K frame pacing and refresh the local launch.
 - [x] 2026-10-11 - Verify the production forest, interactions, responsive layouts, light/dark themes and all section samples; review screenshots.
 - [x] 2026-10-11 - Fill the brief with the requested personal-site and anime forest direction.
 - [x] 2026-10-11 - Replace template branding and placeholder pages with honest personal-site copy.

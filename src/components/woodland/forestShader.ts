@@ -21,16 +21,17 @@ varying vec2 v_uv;
 void main() {
   vec2 screen = vec2(v_uv.x, 1. - v_uv.y);
   vec2 p = (screen - .5) * u_cover + .5;
-  vec3 original = texture2D(u_art, p).rgb;
-  float plantColor = smoothstep(.035, .15, min(original.r, original.g) - original.b)
-    * (1. - smoothstep(.10, .24, original.r - original.g));
   float crown = 1. - smoothstep(.15, .39, p.y);
   float meadow = smoothstep(.62, .88, p.y);
   float trunkLeft = 1. - smoothstep(.055, .15, abs(p.x - (.19 - p.y * .17)));
   float trunkRight = smoothstep(.86, .96, p.x) * smoothstep(.15, .45, p.y);
   float anchored = 1. - max(trunkLeft, trunkRight);
-  float foliage = crown * (.35 + plantColor * .65) * anchored;
-  float grass = meadow * plantColor;
+  // Smooth spatial masks keep neighboring painted pixels together. Color-keyed
+  // per-pixel masks made leaf edges tear and shimmer when displaced.
+  float foliage = crown * anchored;
+  float pathCenter = 1.30 - p.y * .72;
+  float path = 1. - smoothstep(.045, .15, abs(p.x - pathCenter));
+  float grass = meadow * anchored * (1. - path);
   float nearPointer = exp(-dot(screen - u_pointer, screen - u_pointer) * 28.);
   float wind = u_breeze + u_gust * 2.4 + nearPointer * u_pointerWind;
   float branchWave = sin(u_time + p.x * 9. + p.y * 4.);

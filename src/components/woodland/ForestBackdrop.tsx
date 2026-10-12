@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore, type RefObject } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type RefObject,
+} from "react";
 import { LivingForest } from "./LivingForest";
 
 function subscribeViewport(listener: () => void) {
@@ -8,14 +15,15 @@ function subscribeViewport(listener: () => void) {
   return () => window.removeEventListener("resize", listener);
 }
 function sourceForViewport() {
-  if (window.innerWidth >= 900) return "/media/forest-coherent-4k.mp4";
+  const density = window.devicePixelRatio || 1;
+  if (window.innerWidth >= 900 || density > 1) return "/media/forest-coherent-4k.mp4";
   // Use the portrait crop only when it contains the entire visible image.
   if (window.innerWidth < 600 && window.innerWidth / window.innerHeight <= 0.5)
     return "/media/forest-coherent-mobile.mp4";
   return "/media/forest-coherent-tablet.mp4";
 }
 
-/** The ambient loop and live reactions use the same art, shader and clock. */
+/** One continuous, full-resolution renderer. Video is only a WebGL fallback. */
 export function ForestBackdrop({
   gust,
   windClockRef,
@@ -31,23 +39,35 @@ export function ForestBackdrop({
   const video = useRef<HTMLVideoElement>(null);
   const [readySource, setReadySource] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
+  const [fallback, setFallback] = useState(false);
+  const useVideoFallback = useCallback(() => setFallback(true), []);
   useEffect(() => {
     const element = video.current;
     if (!element) return;
+    let frame = 0;
+    const clock = () => {
+      windClockRef.current = element.currentTime;
+      frame = requestAnimationFrame(clock);
+    };
     const update = () => {
+      cancelAnimationFrame(frame);
       if (document.hidden) element.pause();
-      else void element.play().catch(() => {});
+      else {
+        void element.play().catch(() => {});
+        frame = requestAnimationFrame(clock);
+      }
     };
     update();
     document.addEventListener("visibilitychange", update);
     return () => {
       element.pause();
+      cancelAnimationFrame(frame);
       document.removeEventListener("visibilitychange", update);
     };
-  }, [source, failed]);
+  }, [source, failed, fallback, windClockRef]);
   return (
     <>
-      {!failed && (
+      {fallback && !failed && (
         <video
           ref={video}
           src={source}
@@ -60,13 +80,12 @@ export function ForestBackdrop({
           aria-hidden="true"
           tabIndex={-1}
           onPlaying={() => setReadySource(source)}
-          onTimeUpdate={() => {
-            if (video.current) windClockRef.current = video.current.currentTime;
-          }}
           onError={() => setFailed(true)}
         />
       )}
-      <LivingForest gust={gust} video={video} windClockRef={windClockRef} />
+      {!fallback && (
+        <LivingForest gust={gust} windClockRef={windClockRef} onUnavailable={useVideoFallback} />
+      )}
     </>
   );
 }

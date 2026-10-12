@@ -71,12 +71,15 @@ collectibles, dialogue, native dialogs, breathing timer, and motion controls.
 `LivingLeaves` uses one requestAnimationFrame loop and refs for physics rather
 than rendering React on every frame. It cleans up listeners, observers and frames.
 
-`ForestBackdrop` selects the local 4K, landscape or portrait video. Its 16-second
-loop was rendered with the same shader and original painting as `LivingForest`.
-The live canvas reacts to pointer and branch gusts, matching video time and camera
-composition. `LivingLeaves` reads that shared wind clock. WebGL failure leaves
-the video visible; video failure leaves live shader animation. Reduced motion
-and manual pause retain the matching static texture. All media stays local.
+`ForestBackdrop` mounts one continuous `LivingForest` renderer. It samples the
+full 3840 × 2160 painting directly, draws on every requestAnimationFrame and
+shares its continuous clock with `LivingLeaves`. There is no idle-video/live-canvas
+handoff or crossfade. Smooth spatial wind masks keep adjacent painted pixels
+together. The render buffer follows display density, including 3× phones,
+within an 8.3-megapixel budget. Hidden or offscreen scenes suspend rendering.
+WebGL failure selects a local video fallback; Retina screens use its 4K encode.
+Reduced motion, manual pause or failure of both paths retains the static texture.
+All media stays local.
 
 `MusicPlayer` lives in the root layout so navigation preserves playback and
 controls. The guestbook is explicitly private localStorage, not a public backend

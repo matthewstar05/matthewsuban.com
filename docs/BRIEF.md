@@ -18,8 +18,8 @@ ambient music, and gentle motion form the visual language.
 ## Experience
 
 - A full-viewport forest on arrival, with the map below the fold.
-- A coherent looping 4K video whose foliage and meadow themselves move, with
-  live wind reactions over the matching painting.
+- A crisp living 4K painting whose foliage and meadow themselves move at the
+  display's refresh rate, with a local video fallback for unavailable WebGL.
   Keep scene landmarks aligned with interactables and share their breeze.
   Prioritize crisp detail rather than dimensions alone.
 - Original locally hosted anime artwork as the static/reduced-motion fallback.
@@ -39,7 +39,9 @@ stay on the visitor's device and must be labeled accordingly.
 
 Google Flow is the preferred video provider. Existing account access can be
 used as authorized; personal login confirmations cannot be invented. The background now loops a controlled animation of the matching original
-painting, enhanced locally to 4K, with live wind reactions. The user rejected the Flow video because its appearance and motion
+painting, enhanced locally to 4K, with live wind reactions. The primary animation
+now renders continuously on the GPU to avoid compressed 24 fps playback and
+30 fps layer transitions. The user rejected the Flow video because its appearance and motion
 clashed with the scene objects. See `ASSETS.md` for provenance. No alternative paid provider, purchases,
 publication, deployment, or messages are authorized by this redesign. Launch
 the finished local site in a browser as requested.

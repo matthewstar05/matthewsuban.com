@@ -21,12 +21,13 @@ The background now uses the original forest artwork, enhanced locally from its
 **AI-enhanced 4K texture**, not native 4K generation. Enhancement sharpens painted
 edges without changing the scene's composition.
 
-`scripts/render-forest-loop.mjs` renders the actual painting pixels through the
-same WebGL shader used by live reactions. Every animation term repeats over
-16 seconds. It exports 384 frames at 24 fps, encoded as silent H.264 with
-fast-start. Soft spatial masks make the canopy, leaf clusters and meadow sway
-while the main trunks, path and mountains stay anchored. No camera pan, zoom,
-generative morphing or scene changes are used.
+`LivingForest` animates the actual painting pixels directly on the GPU. Every
+animation term repeats over 16 seconds; branch and pointer wind add live
+reactions. It draws on every display frame, with no 30 fps throttle or transition
+between video and canvas. Smooth spatial masks replace per-pixel color masks
+that caused painted edges to tear and shimmer. The main trunks, path and
+mountains stay anchored. No camera pan, zoom, generative morphing or scene
+changes are used.
 
 - `public/media/forest-coherent-4k.mp4`: 3840 × 2160 desktop loop.
 - `public/media/forest-coherent-tablet.mp4`: 1920 × 1080 landscape loop.
@@ -34,14 +35,20 @@ generative morphing or scene changes are used.
   phones use the landscape encode so the crop cannot change the composition.
 - `public/media/forest-coherent-4k.webp`: matching 4K still texture and fallback.
 
-`ForestBackdrop` plays the loop. `LivingForest` adds live pointer and branch-gust
-reactions, using the same painting, shader and video time. It fades in during
-interaction, preserving the camera and landmarks. `LivingLeaves` reads the same
-wind clock. The live buffer follows pixel density up to 3840 × 2160 with a 30 fps
-ceiling; it stops drawing when idle behind the video or when the tab is hidden.
-If video cannot load, the live shader supplies ambient movement. If WebGL is
-unavailable, the video still plays. The matching static painting remains below
-both layers. Reduced motion, manual pause and quiet mode use that still.
+`ForestBackdrop` uses the GPU painting as the primary animation and only loads
+video if WebGL fails. The render buffer follows physical display pixels,
+including 3× phones, within an 8.3-megapixel budget and 4096-pixel edge limit.
+`LivingLeaves` reads the same continuous wind clock. Rendering suspends when
+the scene is offscreen or the tab is hidden. The matching still remains below
+the animation. Reduced motion, manual pause, quiet mode or failure of both
+animation paths uses that still.
+
+The three previously exported video fallbacks are 24 fps H.264. They preserve
+the original composition but are not the normal playback path. Retina screens
+use the 4K fallback rather than a CSS-width-selected low-resolution encode.
+`scripts/render-forest-loop.mjs` can export the current shader; the shipped
+fallbacks retain the earlier shader's color masks. No new provider generation
+or credit spending was required for this correction.
 
 The enhancement used a 3× model result resized and center-cropped to 4K. This
 increases edge clarity but does not recover unknown original details exactly.
@@ -49,10 +56,9 @@ Responsive image sizing accounts for tall-screen cover crops. All artwork,
 video and audio are local. No runtime dependency or remote media request was
 added; FFmpeg and enhancement tools are only used offline.
 
-Frame checks on the finished render showed moving canopy and grass, identical
-mountain pixels, and much smaller changes at the loop boundary than midway
-through the sway. Browser tests verify the actual 4K stream, playing state,
-16-second duration, responsive encodes, gusts and media-failure fallback.
+Browser tests verify full-density phone buffers, continuous drawing at display
+cadence, branch gusts, absence of video downloads on the primary path, and
+video/static fallbacks when animation capabilities fail.
 
 ## Flow experiment
 

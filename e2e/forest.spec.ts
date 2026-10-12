@@ -10,20 +10,7 @@ test("the living 4K painting responds to a gust and pauses cleanly", async ({ pa
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
   const painting = page.locator(".living-forest");
-  const video = page.locator(".forest-loop");
-  await expect(video).toHaveClass(/is-ready/);
-  await expect
-    .poll(() => video.evaluate((v: HTMLVideoElement) => [v.videoWidth, v.videoHeight]))
-    .toEqual([3840, 2160]);
-  await expect
-    .poll(() => video.evaluate((v: HTMLVideoElement) => v.currentTime))
-    .toBeGreaterThan(0);
-  expect(
-    await video.evaluate(
-      (v: HTMLVideoElement) =>
-        v.loop && v.muted && v.playsInline && Math.abs(v.duration - 16) < 0.1,
-    ),
-  ).toBe(true);
+  await expect(page.locator("video")).toHaveCount(0);
   await expect(painting).toHaveClass(/is-ready/);
   await expect(painting).toHaveAttribute("data-source-width", "3840");
   await expect.poll(() => painting.evaluate((c: HTMLCanvasElement) => c.width)).toBe(1440);
@@ -36,7 +23,7 @@ test("the living 4K painting responds to a gust and pauses cleanly", async ({ pa
   expect(before.equals(after)).toBe(false);
   await page.getByRole("button", { name: "Pause the forest motion" }).click();
   await expect(painting).toHaveCount(0);
-  await expect(video).toHaveCount(0);
+  await expect(page.locator("video")).toHaveCount(0);
   await expect(page.locator(".world-art")).toBeVisible();
   await page.getByRole("button", { name: "Resume the forest motion" }).click();
   await expect(painting).toHaveClass(/is-ready/);
@@ -48,37 +35,102 @@ test("the living 4K painting responds to a gust and pauses cleanly", async ({ pa
   ).toBeVisible();
 });
 
-test("phones render the same painting at their actual screen ratio", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.emulateMedia({ reducedMotion: "no-preference" });
+test("Retina phones keep full display resolution when animated or resized", async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    deviceScaleFactor: 3,
+    reducedMotion: "no-preference",
+  });
+  const page = await context.newPage();
+  const videos: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().endsWith(".mp4")) videos.push(request.url());
+  });
   await page.goto("/");
   const painting = page.locator(".living-forest");
   await expect(painting).toHaveClass(/is-ready/);
   expect(await painting.evaluate((c: HTMLCanvasElement) => [c.width, c.height])).toEqual([
-    390, 844,
+    1170, 2532,
   ]);
-  await expect
-    .poll(() =>
-      page.locator("video").evaluate((v: HTMLVideoElement) => [v.videoWidth, v.videoHeight]),
-    )
-    .toEqual([720, 1440]);
   await page.setViewportSize({ width: 390, height: 667 });
   await expect
-    .poll(() =>
-      page.locator("video").evaluate((v: HTMLVideoElement) => [v.videoWidth, v.videoHeight]),
-    )
-    .toEqual([1920, 1080]);
+    .poll(() => painting.evaluate((c: HTMLCanvasElement) => [c.width, c.height]))
+    .toEqual([1170, 2001]);
+  expect(videos).toEqual([]);
+  await context.close();
 });
 
-test("the live painting keeps moving if video cannot load", async ({ page }) => {
+async function withoutWebGL(page: import("@playwright/test").Page) {
+  await page.addInitScript(() => {
+    HTMLCanvasElement.prototype.getContext = new Proxy(HTMLCanvasElement.prototype.getContext, {
+      apply(target, canvas, args) {
+        return args[0] === "webgl" ? null : Reflect.apply(target, canvas, args);
+      },
+    });
+  });
+}
+
+test("video remains a working fallback when WebGL is unavailable", async ({ page }) => {
+  await withoutWebGL(page);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  const video = page.locator("video");
+  await expect(page.locator(".living-forest")).toHaveCount(0);
+  await expect(video).toHaveClass(/is-ready/);
+  await expect
+    .poll(() => video.evaluate((v: HTMLVideoElement) => [v.videoWidth, v.videoHeight]))
+    .toEqual([3840, 2160]);
+  await expect
+    .poll(() => video.evaluate((v: HTMLVideoElement) => v.currentTime))
+    .toBeGreaterThan(0);
+  expect(await video.evaluate((v: HTMLVideoElement) => v.loop && v.muted && v.playsInline)).toBe(
+    true,
+  );
+});
+
+test("the static painting remains usable if both animation paths fail", async ({ page }) => {
+  await withoutWebGL(page);
   await page.route("**/media/forest-coherent-*.mp4", (route) => route.abort());
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
   await expect(page.locator("video")).toHaveCount(0);
-  await expect(page.locator(".living-forest")).toHaveClass(/is-ready is-interacting/);
+  await expect(page.locator(".living-forest")).toHaveCount(0);
+  await expect(page.locator(".world-art")).toBeVisible();
   await expect(
     page.getByRole("link", { name: "Visit the treehouse: about Matthew" }),
   ).toBeVisible();
+});
+
+test("the painting draws continuously at display cadence without the old 30 fps gate", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const counter = window as typeof window & { forestDraws: number };
+    counter.forestDraws = 0;
+    const draw = WebGLRenderingContext.prototype.drawArrays;
+    WebGLRenderingContext.prototype.drawArrays = function (...args) {
+      counter.forestDraws++;
+      return draw.apply(this, args);
+    };
+  });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await expect(page.locator(".living-forest")).toHaveClass(/is-ready/);
+  const frames = await page.evaluate(async () => {
+    const counter = window as typeof window & { forestDraws: number };
+    const before = counter.forestDraws;
+    let displayFrames = 0;
+    await new Promise<void>((resolve) => {
+      function next() {
+        if (++displayFrames === 24) resolve();
+        else requestAnimationFrame(next);
+      }
+      requestAnimationFrame(next);
+    });
+    return { drawn: counter.forestDraws - before, displayFrames };
+  });
+  expect(frames.drawn).toBeGreaterThanOrEqual(frames.displayFrames - 1);
 });
 
 test("reduced motion keeps nine keyboard-collectible leaves and no video", async ({ page }) => {

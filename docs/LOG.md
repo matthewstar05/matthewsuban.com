@@ -104,3 +104,24 @@ reconstruct _why_ the site looks the way it does from this file alone.
 - **Follow-ups:** real biography, project history, journal entries and public
   contact details need user-supplied facts. Public guestbook delivery and hosting
   remain separate follow-ups.
+
+## 2026-10-11 - Crisp, continuous forest animation
+
+- **Goal:** correct the soft and choppy wallpaper animation reported by the user.
+- **Changed:** replace the 24 fps idle video / 30 fps reaction overlay with one
+  continuous GPU renderer of the full 4K painting. Remove the layer crossfade,
+  follow physical display density on Retina phones, and replace color-keyed
+  displacement masks with smooth spatial masks. Retain video as a WebGL fallback
+  and suspend rendering when hidden or offscreen. No dependencies or new remote
+  asset generation were needed.
+- **Verified:** `npm run verify` passed, including 28 unit tests and the build;
+  all 25 production browser tests and 24 screenshot captures passed. Reviewed
+  moving desktop/mobile scenes in both themes and checked the scene in native
+  Chrome. A local Metal-backed Chromium benchmark, forcing GPU completion,
+  drew 241 frames in 4.00 seconds at a true 3840 × 2160 buffer: median 16.7 ms,
+  95th percentile 16.9 ms, no intervals above 33.4 ms. A 3× phone used its full
+  1170 × 2532 buffer with a 16.7 ms median. The old reaction layer drew 73 frames
+  in 2.51 seconds at roughly 33 ms intervals. These are local measurements,
+  not a guarantee for every device. Tests verify continuous frame drawing,
+  full-density phone resizing, no primary-path video downloads, and capability
+  failure fallbacks.
