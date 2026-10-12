@@ -147,3 +147,6 @@ reconstruct _why_ the site looks the way it does from this file alone.
   A local Metal-backed Chromium check, forcing GPU completion during the gust,
   drew 240 frames in four seconds at 3840 × 2160: median 16.7 ms, 95th percentile
   16.8 ms, no intervals over 33.4 ms. The updated scene is running in Chrome.
+- **CI follow-up:** the slower remote renderer exposed a test comparison spanning
+  the entire click delay. Compare consecutive actual draws when checking repeat
+  gust continuity, so legitimate motion during the click cannot look like a snap.

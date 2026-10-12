@@ -113,22 +113,29 @@ test("a gust bends gradually, ripples across trees and rebounds without resettin
   expect(peaks[1].time - peaks[0].time).toBeGreaterThan(500);
   const jumps = trace.slice(1).map((sample, i) => Math.abs(sample.fronts[0] - trace[i].fronts[0]));
   expect(Math.max(...jumps)).toBeLessThan(0.15);
-  const beforeRepeat = trace.at(-1)!.fronts[0];
   await branch.click();
-  const afterRepeat = await page.evaluate(
+  const repeated = await page.evaluate(
     () =>
-      new Promise<number>((resolve) => {
+      new Promise<{ time: number; fronts: number[] }[]>((resolve) => {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             const wind = window as typeof window & {
               forestBends: { time: number; fronts: number[] }[];
             };
-            resolve(wind.forestBends.at(-1)!.fronts[0]);
+            resolve(wind.forestBends);
           });
         });
       }),
   );
-  expect(Math.abs(afterRepeat - beforeRepeat)).toBeLessThan(0.15);
+  const retrigger = repeated.slice(trace.length - 1);
+  expect(retrigger.length).toBeGreaterThan(2);
+  // Compare consecutive draws, not positions separated by the click action's
+  // variable delay. With velocity capped at 2.4 and dt at 0.1, a continuous
+  // spring cannot move more than 0.25 per draw even on a slow CI renderer.
+  const repeatJumps = retrigger
+    .slice(1)
+    .map((sample, i) => Math.abs(sample.fronts[0] - retrigger[i].fronts[0]));
+  expect(Math.max(...repeatJumps)).toBeLessThan(0.25);
 });
 
 async function withoutWebGL(page: import("@playwright/test").Page) {
